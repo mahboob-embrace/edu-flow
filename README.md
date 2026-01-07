@@ -39,6 +39,12 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/eduflow?schema=publi
 AUTH_SECRET="your-super-secret-key-generate-with-npx-auth-secret"
 AUTH_URL="http://localhost:3000"
 NEXTAUTH_URL="http://localhost:3000"
+
+# OAuth Providers (optional - for social login)
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+FACEBOOK_CLIENT_ID="your-facebook-app-id"
+FACEBOOK_CLIENT_SECRET="your-facebook-app-secret"
 ```
 
 > **Tip**: Generate a secure AUTH_SECRET with: `npx auth secret`

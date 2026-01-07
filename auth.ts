@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
+import Facebook from "next-auth/providers/facebook";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
 import { authConfig } from "./auth.config";
@@ -10,6 +12,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(prisma),
   providers: [
+    // OAuth Providers
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    Facebook({
+      clientId: process.env.FACEBOOK_CLIENT_ID!,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+    }),
+    // Credentials Provider
     Credentials({
       name: "credentials",
       credentials: {
@@ -50,11 +62,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     ...authConfig.callbacks,
-    // Override jwt callback to include role from database on initial sign in
-    async jwt({ token, user }) {
+    // Override jwt callback to include role from database
+    async jwt({ token, user, account }) {
+      // On initial sign in
       if (user) {
         token.id = user.id;
-        token.role = (user as { role: Role }).role;
+        // For OAuth users, fetch role from database or assign default
+        if (account?.provider !== "credentials") {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: user.id },
+            select: { role: true },
+          });
+          token.role = (dbUser?.role as Role) || "USER";
+        } else {
+          token.role = (user as { role: Role }).role;
+        }
       }
       return token;
     },
@@ -64,6 +86,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.role = token.role as Role;
       }
       return session;
+    },
+  },
+  events: {
+    // Set default role for new OAuth users
+    async createUser({ user }) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { role: "USER" },
+      });
     },
   },
 });
