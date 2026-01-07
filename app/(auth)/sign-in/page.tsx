@@ -26,28 +26,141 @@ function SignInForm() {
       title="Welcome Back"
       subtitle="Sign in to your EduFlow account"
       illustration={
-        <div className="relative w-full h-full flex flex-col items-center justify-center text-white/90">
-          {/* Placeholder Illustration - Replace with actual asset */}
-          <svg
-            viewBox="0 0 200 200"
-            className="w-full h-auto drop-shadow-2xl"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="100" cy="100" r="80" fill="#FFCC3E" fillOpacity="0.2" />
-            <path
-              d="M60 140 H140 V110 H60 Z"
-              fill="#E1E5F4"
-              stroke="white"
-              strokeWidth="2"
+        <div className="relative w-full flex flex-col items-center justify-center">
+          {/* Student at laptop illustration */}
+          <div className="relative w-64 h-64">
+            {/* Yellow background blob */}
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full"
+              style={{ backgroundColor: "#FFCC3E" }}
             />
-            <rect x="70" y="70" width="60" height="40" rx="4" fill="white" />
-            <path d="M80 110 V140" stroke="white" strokeWidth="2" />
-            <path d="M120 110 V140" stroke="white" strokeWidth="2" />
-            <circle cx="100" cy="60" r="20" fill="#FFCC3E" />
-            <path d="M80 90 Q100 110 120 90" fill="#FFCC3E" />
-          </svg>
-          <p className="mt-8 text-center text-lg font-medium opacity-80">
+
+            {/* Student figure */}
+            <svg viewBox="0 0 200 200" className="relative z-10 w-full h-full">
+              {/* Desk */}
+              <rect
+                x="40"
+                y="130"
+                width="120"
+                height="8"
+                rx="2"
+                fill="#E1E5F4"
+              />
+              <rect x="50" y="138" width="10" height="30" fill="#E1E5F4" />
+              <rect x="140" y="138" width="10" height="30" fill="#E1E5F4" />
+
+              {/* Laptop */}
+              <rect x="60" y="100" width="80" height="30" rx="3" fill="white" />
+              <rect
+                x="65"
+                y="105"
+                width="70"
+                height="20"
+                rx="2"
+                fill="#030047"
+              />
+              <rect
+                x="50"
+                y="128"
+                width="100"
+                height="5"
+                rx="1"
+                fill="#E1E5F4"
+              />
+
+              {/* Person body */}
+              <ellipse cx="100" cy="85" rx="20" ry="15" fill="#FFCC3E" />
+
+              {/* Person head */}
+              <circle cx="100" cy="55" r="18" fill="#E1E5F4" />
+              <circle cx="94" cy="52" r="2" fill="#030047" />
+              <circle cx="106" cy="52" r="2" fill="#030047" />
+              <path
+                d="M95 60 Q100 65 105 60"
+                stroke="#030047"
+                strokeWidth="2"
+                fill="none"
+              />
+
+              {/* Hair */}
+              <path d="M82 50 Q85 35 100 35 Q115 35 118 50" fill="#030047" />
+
+              {/* Arms */}
+              <path
+                d="M80 85 L65 105"
+                stroke="#E1E5F4"
+                strokeWidth="6"
+                strokeLinecap="round"
+              />
+              <path
+                d="M120 85 L135 105"
+                stroke="#E1E5F4"
+                strokeWidth="6"
+                strokeLinecap="round"
+              />
+
+              {/* Decorative elements */}
+              <circle cx="160" cy="40" r="5" fill="#FFCC3E" opacity="0.6" />
+              <circle cx="40" cy="60" r="3" fill="#FFCC3E" opacity="0.6" />
+              <path
+                d="M150 80 L165 75"
+                stroke="white"
+                strokeWidth="2"
+                opacity="0.5"
+              />
+              <path
+                d="M35 90 L45 85"
+                stroke="white"
+                strokeWidth="2"
+                opacity="0.5"
+              />
+
+              {/* Globe icon */}
+              <circle
+                cx="165"
+                cy="60"
+                r="12"
+                stroke="white"
+                strokeWidth="2"
+                fill="none"
+                opacity="0.7"
+              />
+              <path
+                d="M153 60 Q165 50 177 60"
+                stroke="white"
+                strokeWidth="1"
+                fill="none"
+                opacity="0.7"
+              />
+              <line
+                x1="165"
+                y1="48"
+                x2="165"
+                y2="72"
+                stroke="white"
+                strokeWidth="1"
+                opacity="0.7"
+              />
+
+              {/* Graduation cap */}
+              <polygon
+                points="35,35 50,25 65,35 50,45"
+                fill="white"
+                opacity="0.8"
+              />
+              <line
+                x1="50"
+                y1="25"
+                x2="50"
+                y2="15"
+                stroke="white"
+                strokeWidth="2"
+                opacity="0.8"
+              />
+            </svg>
+          </div>
+
+          <p className="mt-6 text-center text-sm font-medium text-white/80 max-w-xs">
             "Education is the passport to the future, for tomorrow belongs to
             those who prepare for it today."
           </p>
@@ -60,9 +173,8 @@ function SignInForm() {
           <form action={signInWithGoogle}>
             <button
               type="submit"
-              className="w-full h-12 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium rounded-full transition-all duration-200 flex items-center justify-center gap-3 relative group overflow-hidden"
+              className="w-full h-12 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium rounded-full transition-all duration-200 flex items-center justify-center gap-3"
             >
-              <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-10 transition-opacity" />
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
@@ -88,9 +200,9 @@ function SignInForm() {
           <form action={signInWithFacebook}>
             <button
               type="submit"
-              className="w-full h-12 bg-[#1877F2] hover:bg-[#166FE5] text-white font-medium rounded-full transition-all duration-200 flex items-center justify-center gap-3 relative group overflow-hidden shadow-sm"
+              className="w-full h-12 text-white font-medium rounded-full transition-all duration-200 flex items-center justify-center gap-3"
+              style={{ backgroundColor: "#1877F2" }}
             >
-              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
@@ -99,17 +211,22 @@ function SignInForm() {
           </form>
         </div>
 
+        {/* Divider */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-200"></div>
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-gray-400">
+            <span
+              className="px-3 text-gray-400"
+              style={{ backgroundColor: "#FBFBFF" }}
+            >
               Or sign in with email
             </span>
           </div>
         </div>
 
+        {/* Credentials Form */}
         <form action={formAction} className="space-y-4">
           {registered && (
             <div className="p-3 rounded-lg bg-green-50 text-green-600 text-sm font-medium border border-green-100 flex items-center gap-2">
@@ -156,28 +273,30 @@ function SignInForm() {
           />
 
           <div className="space-y-4">
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary transition-colors">
+            {/* Email Input */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
                 <Mail className="w-5 h-5" />
               </div>
               <input
                 type="email"
                 name="email"
                 required
-                className="w-full pl-11 pr-4 py-3 bg-surface border-2 border-transparent focus:border-primary/10 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary/5 transition-all outline-none shadow-sm group-hover:shadow-md"
+                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 focus:ring-2 focus:ring-gray-100 transition-all"
                 placeholder="Email Address"
               />
             </div>
 
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary transition-colors">
+            {/* Password Input */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
                 <Lock className="w-5 h-5" />
               </div>
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 required
-                className="w-full pl-11 pr-12 py-3 bg-surface border-2 border-transparent focus:border-primary/10 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary/5 transition-all outline-none shadow-sm group-hover:shadow-md"
+                className="w-full pl-12 pr-12 py-3.5 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 focus:ring-2 focus:ring-gray-100 transition-all"
                 placeholder="Password"
               />
               <button
@@ -194,20 +313,27 @@ function SignInForm() {
             </div>
           </div>
 
+          {/* Sign In Button - Solid Gold */}
           <button
             type="submit"
             disabled={isPending}
-            className="w-full py-3 px-4 bg-secondary hover:bg-yellow-400 text-primary font-bold rounded-full shadow-lg shadow-yellow-200/50 transition-all duration-200 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base"
+            className="w-full py-3.5 px-4 font-bold rounded-full transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base"
+            style={{
+              backgroundColor: "#FFCC3E",
+              color: "#030047",
+              boxShadow: "0 4px 14px rgba(255, 204, 62, 0.4)",
+            }}
           >
             {isPending ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
         <p className="text-center text-gray-500 text-sm">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link
             href="/sign-up"
-            className="text-primary font-bold hover:underline"
+            className="font-bold hover:underline"
+            style={{ color: "#030047" }}
           >
             Create one
           </Link>
@@ -221,7 +347,10 @@ export default function SignInPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-background text-primary">
+        <div
+          className="min-h-screen flex items-center justify-center"
+          style={{ backgroundColor: "#FBFBFF", color: "#030047" }}
+        >
           Loading...
         </div>
       }

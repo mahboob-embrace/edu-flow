@@ -1,6 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
-
 interface AuthLayoutProps {
   children: React.ReactNode;
   illustration: React.ReactNode;
@@ -17,51 +14,74 @@ export function AuthLayout({
   isSignUp,
 }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen w-full flex bg-background overflow-hidden relative">
+    <div
+      className="min-h-screen w-full flex overflow-hidden relative"
+      style={{ backgroundColor: "#FBFBFF" }}
+    >
       {/* Left Side - Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center px-8 lg:px-24 z-10">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center px-8 lg:px-24 py-12 z-10">
         <div className="w-full max-w-md space-y-8">
           <div className="text-left space-y-2">
-            <h1 className="text-4xl font-bold text-primary font-heading tracking-tight">
+            <h1
+              className="text-4xl font-bold tracking-tight"
+              style={{ color: "#030047", fontFamily: "'Roboto', sans-serif" }}
+            >
               {title}
             </h1>
-            <p className="text-gray-500 font-body">{subtitle}</p>
+            <p
+              className="text-gray-500"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              {subtitle}
+            </p>
           </div>
 
           {children}
         </div>
       </div>
 
-      {/* Right Side - Illustration & Wave */}
-      <div className="hidden lg:flex w-1/2 bg-primary relative justify-center items-center">
-        {/* Wave Shape */}
-        <div
-          className="absolute top-0 bottom-0 -left-1 w-24 h-full bg-background z-20"
-          style={{
-            clipPath:
-              "path('M 0 0 C 40 100 0 300 80 500 C 130 650 60 800 100 1000 L 0 1000 Z')",
-            transform: "scaleX(-1)", // Mirror to face right
-            left: "-1px",
-          }}
-        />
-
-        {/* An alternative simpler wave using SVG if clip-path is tricky to get perfect */}
-        <div className="absolute top-0 bottom-0 left-0 w-full h-full z-10">
-          <svg
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            className="absolute top-0 bottom-0 -left-16 h-full w-48 text-background fill-current"
-            style={{ transform: "scaleX(-1)" }}
-          >
-            <path d="M0 0 C 50 20 20 60 50 100 L 0 100 L 0 0 Z" />
-          </svg>
-        </div>
+      {/* Right Side - Illustration with Navy Blue Background */}
+      <div
+        className="hidden lg:flex w-1/2 relative justify-center items-center"
+        style={{ backgroundColor: "#030047" }}
+      >
+        {/* Wave Shape - SVG overlay for curved edge */}
+        <svg
+          className="absolute top-0 left-0 h-full w-32"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          style={{ transform: "translateX(-50%)" }}
+        >
+          <path
+            d="M100 0 C 60 20 80 40 50 50 C 20 60 60 80 100 100 L 100 0 Z"
+            fill="#FBFBFF"
+          />
+        </svg>
 
         {/* Content */}
         <div className="z-30 relative w-full h-full flex flex-col justify-center items-center p-12 text-white">
-          <div className="w-full max-w-lg aspect-square relative flex items-center justify-center">
+          <div className="w-full max-w-md flex flex-col items-center justify-center">
             {illustration}
           </div>
+        </div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-8 right-8 opacity-20">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="30" r="4" fill="#FFCC3E" />
+            <circle cx="50" cy="10" r="2" fill="#FFCC3E" />
+            <circle cx="10" cy="50" r="3" fill="#FFCC3E" />
+          </svg>
+        </div>
+        <div className="absolute bottom-8 left-32 opacity-30">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <path
+              d="M10 30 Q20 10 30 30"
+              stroke="#FFCC3E"
+              strokeWidth="2"
+              fill="none"
+            />
+          </svg>
         </div>
       </div>
     </div>

@@ -23,39 +23,145 @@ export default function SignUpPage() {
       subtitle="Join EduFlow today and start learning"
       isSignUp={true}
       illustration={
-        <div className="relative w-full h-full flex flex-col items-center justify-center text-white/90">
-          {/* Placeholder Illustration - Replace with actual asset */}
-          <svg
-            viewBox="0 0 200 200"
-            className="w-full h-auto drop-shadow-2xl"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M40 160 L160 160 L160 130 C160 90 130 90 100 90 C70 90 40 90 40 130 Z"
-              fill="#E1E5F4"
-              stroke="white"
-              strokeWidth="2"
+        <div className="relative w-full flex flex-col items-center justify-center">
+          {/* Student with book illustration */}
+          <div className="relative w-64 h-64">
+            {/* Yellow background blob */}
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full"
+              style={{ backgroundColor: "#FFCC3E" }}
             />
-            <circle
-              cx="100"
-              cy="70"
-              r="30"
-              fill="#E1E5F4"
-              stroke="white"
-              strokeWidth="2"
-            />
-            <path
-              d="M50 120 L70 140 L100 110"
-              stroke="#FFCC3E"
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <circle cx="160" cy="40" r="10" fill="#FFCC3E" />
-            <path d="M150 120 L180 100" stroke="#FFCC3E" strokeWidth="2" />
-          </svg>
-          <p className="mt-8 text-center text-lg font-medium opacity-80">
+
+            {/* Student figure */}
+            <svg viewBox="0 0 200 200" className="relative z-10 w-full h-full">
+              {/* Person body */}
+              <ellipse cx="100" cy="120" rx="30" ry="40" fill="#FFCC3E" />
+
+              {/* Person head */}
+              <circle cx="100" cy="60" r="25" fill="#E1E5F4" />
+              <circle cx="92" cy="55" r="3" fill="#030047" />
+              <circle cx="108" cy="55" r="3" fill="#030047" />
+              <path
+                d="M95 68 Q100 73 105 68"
+                stroke="#030047"
+                strokeWidth="2"
+                fill="none"
+              />
+
+              {/* Hair */}
+              <path d="M75 55 Q80 30 100 30 Q120 30 125 55" fill="#030047" />
+
+              {/* Book */}
+              <rect
+                x="60"
+                y="100"
+                width="45"
+                height="60"
+                rx="3"
+                fill="white"
+                transform="rotate(-10 80 130)"
+              />
+              <rect
+                x="65"
+                y="105"
+                width="35"
+                height="50"
+                rx="2"
+                fill="#030047"
+                transform="rotate(-10 80 130)"
+                opacity="0.1"
+              />
+              <line
+                x1="82"
+                y1="110"
+                x2="82"
+                y2="155"
+                stroke="#030047"
+                strokeWidth="2"
+                transform="rotate(-10 80 130)"
+              />
+
+              {/* Arms holding book */}
+              <path
+                d="M70 100 L55 115"
+                stroke="#E1E5F4"
+                strokeWidth="8"
+                strokeLinecap="round"
+              />
+              <path
+                d="M130 100 L115 110"
+                stroke="#E1E5F4"
+                strokeWidth="8"
+                strokeLinecap="round"
+              />
+
+              {/* Decorative elements */}
+              <circle cx="160" cy="40" r="6" fill="#FFCC3E" opacity="0.6" />
+              <circle cx="45" cy="50" r="4" fill="#FFCC3E" opacity="0.6" />
+              <circle cx="170" cy="100" r="3" fill="white" opacity="0.5" />
+
+              {/* Stars */}
+              <path
+                d="M155 70 L158 76 L165 76 L160 80 L162 87 L155 83 L148 87 L150 80 L145 76 L152 76 Z"
+                fill="white"
+                opacity="0.7"
+              />
+              <path
+                d="M40 80 L42 84 L47 84 L43 87 L45 92 L40 89 L35 92 L37 87 L33 84 L38 84 Z"
+                fill="white"
+                opacity="0.5"
+                transform="scale(0.7) translate(20 30)"
+              />
+
+              {/* Pencil */}
+              <rect
+                x="165"
+                y="120"
+                width="6"
+                height="35"
+                rx="1"
+                fill="white"
+                transform="rotate(20 168 137)"
+              />
+              <polygon
+                points="168,155 165,165 171,165"
+                fill="#FFCC3E"
+                transform="rotate(20 168 160)"
+              />
+
+              {/* Globe */}
+              <circle
+                cx="35"
+                cy="130"
+                r="15"
+                stroke="white"
+                strokeWidth="2"
+                fill="none"
+                opacity="0.6"
+              />
+              <ellipse
+                cx="35"
+                cy="130"
+                rx="15"
+                ry="6"
+                stroke="white"
+                strokeWidth="1"
+                fill="none"
+                opacity="0.6"
+              />
+              <line
+                x1="35"
+                y1="115"
+                x2="35"
+                y2="145"
+                stroke="white"
+                strokeWidth="1"
+                opacity="0.6"
+              />
+            </svg>
+          </div>
+
+          <p className="mt-6 text-center text-sm font-medium text-white/80 max-w-xs">
             "The beautiful thing about learning is that no one can take it away
             from you."
           </p>
@@ -68,9 +174,8 @@ export default function SignUpPage() {
           <form action={signInWithGoogle}>
             <button
               type="submit"
-              className="w-full h-12 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium rounded-full transition-all duration-200 flex items-center justify-center gap-3 relative group overflow-hidden"
+              className="w-full h-12 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium rounded-full transition-all duration-200 flex items-center justify-center gap-3"
             >
-              <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-10 transition-opacity" />
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
@@ -96,9 +201,9 @@ export default function SignUpPage() {
           <form action={signInWithFacebook}>
             <button
               type="submit"
-              className="w-full h-12 bg-[#1877F2] hover:bg-[#166FE5] text-white font-medium rounded-full transition-all duration-200 flex items-center justify-center gap-3 relative group overflow-hidden shadow-sm"
+              className="w-full h-12 text-white font-medium rounded-full transition-all duration-200 flex items-center justify-center gap-3"
+              style={{ backgroundColor: "#1877F2" }}
             >
-              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
@@ -107,17 +212,22 @@ export default function SignUpPage() {
           </form>
         </div>
 
+        {/* Divider */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-200"></div>
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-gray-400">
+            <span
+              className="px-3 text-gray-400"
+              style={{ backgroundColor: "#FBFBFF" }}
+            >
               Or register with email
             </span>
           </div>
         </div>
 
+        {/* Form */}
         <form action={formAction} className="space-y-4">
           {state?.error && (
             <div className="p-3 rounded-lg bg-red-50 text-red-600 text-sm font-medium border border-red-100 flex items-center gap-2">
@@ -139,34 +249,37 @@ export default function SignUpPage() {
           )}
 
           <div className="space-y-4">
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary transition-colors">
+            {/* Full Name */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
                 <User className="w-5 h-5" />
               </div>
               <input
                 type="text"
                 name="name"
                 required
-                className="w-full pl-11 pr-4 py-3 bg-surface border-2 border-transparent focus:border-primary/10 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary/5 transition-all outline-none shadow-sm group-hover:shadow-md"
+                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 focus:ring-2 focus:ring-gray-100 transition-all"
                 placeholder="Full Name"
               />
             </div>
 
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary transition-colors">
+            {/* Email */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
                 <Mail className="w-5 h-5" />
               </div>
               <input
                 type="email"
                 name="email"
                 required
-                className="w-full pl-11 pr-4 py-3 bg-surface border-2 border-transparent focus:border-primary/10 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary/5 transition-all outline-none shadow-sm group-hover:shadow-md"
+                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 focus:ring-2 focus:ring-gray-100 transition-all"
                 placeholder="Email Address"
               />
             </div>
 
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary transition-colors">
+            {/* Password */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
                 <Lock className="w-5 h-5" />
               </div>
               <input
@@ -174,7 +287,7 @@ export default function SignUpPage() {
                 name="password"
                 required
                 minLength={8}
-                className="w-full pl-11 pr-12 py-3 bg-surface border-2 border-transparent focus:border-primary/10 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary/5 transition-all outline-none shadow-sm group-hover:shadow-md"
+                className="w-full pl-12 pr-12 py-3.5 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 focus:ring-2 focus:ring-gray-100 transition-all"
                 placeholder="Password"
               />
               <button
@@ -190,8 +303,9 @@ export default function SignUpPage() {
               </button>
             </div>
 
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary transition-colors">
+            {/* Confirm Password */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
                 <CheckCircle className="w-5 h-5" />
               </div>
               <input
@@ -199,8 +313,8 @@ export default function SignUpPage() {
                 name="confirmPassword"
                 required
                 minLength={8}
-                className="w-full pl-11 pr-12 py-3 bg-surface border-2 border-transparent focus:border-primary/10 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary/5 transition-all outline-none shadow-sm group-hover:shadow-md"
-                placeholder="Confirm Password"
+                className="w-full pl-12 pr-12 py-3.5 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 focus:ring-2 focus:ring-gray-100 transition-all"
+                placeholder="Repeat Password"
               />
               <button
                 type="button"
@@ -216,10 +330,16 @@ export default function SignUpPage() {
             </div>
           </div>
 
+          {/* Sign Up Button - Solid Gold */}
           <button
             type="submit"
             disabled={isPending}
-            className="w-full py-3 px-4 bg-secondary hover:bg-yellow-400 text-primary font-bold rounded-full shadow-lg shadow-yellow-200/50 transition-all duration-200 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base"
+            className="w-full py-3.5 px-4 font-bold rounded-full transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base"
+            style={{
+              backgroundColor: "#FFCC3E",
+              color: "#030047",
+              boxShadow: "0 4px 14px rgba(255, 204, 62, 0.4)",
+            }}
           >
             {isPending ? "Creating Account..." : "Sign Up"}
           </button>
@@ -229,9 +349,10 @@ export default function SignUpPage() {
           Already have an account?{" "}
           <Link
             href="/sign-in"
-            className="text-primary font-bold hover:underline"
+            className="font-bold hover:underline"
+            style={{ color: "#030047" }}
           >
-            Sign in
+            Log in
           </Link>
         </p>
       </div>
