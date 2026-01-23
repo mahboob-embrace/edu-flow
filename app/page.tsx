@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { ThemeSwitcher } from "@/components/theme-switcher"
-import { Button } from "@/components/ui/button"
+import { ThemeSwitcher } from "@/components/theme-switcher";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,23 +9,23 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Switch } from "@/components/ui/switch"
-import { useColorTheme, colorThemes } from "@/components/color-theme-provider"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
+import { useColorTheme, colorThemes } from "@/components/color-theme-provider";
 
 export default function Home() {
-  const { colorTheme, setColorTheme } = useColorTheme()
+  const { colorTheme, setColorTheme } = useColorTheme();
 
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center justify-between px-4 mx-auto">
+        <div className=" flex h-14 items-center justify-between px-4 mx-auto">
           <div className="flex items-center gap-2">
             <span className="text-xl font-bold">Nova UI</span>
             <Badge variant="secondary">shadcn/ui</Badge>
@@ -34,14 +34,15 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className=" mx-auto px-4 py-8">
         <section className="mb-12">
           <h1 className="text-4xl font-bold tracking-tight mb-4">
             Nova Style Design System
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            Sharp edges, high contrast, and minimal aesthetics. Built with shadcn/ui 
-            and featuring multiple color schemes for your Next.js application.
+            Sharp edges, high contrast, and minimal aesthetics. Built with
+            shadcn/ui and featuring multiple color schemes for your Next.js
+            application.
           </p>
         </section>
 
@@ -200,7 +201,11 @@ export default function Home() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="john@example.com" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="john@example.com"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
@@ -208,7 +213,9 @@ export default function Home() {
                   </div>
                 </CardContent>
                 <CardFooter className="flex gap-2">
-                  <Button variant="outline" className="flex-1">Cancel</Button>
+                  <Button variant="outline" className="flex-1">
+                    Cancel
+                  </Button>
                   <Button className="flex-1">Create</Button>
                 </CardFooter>
               </Card>
@@ -225,5 +232,5 @@ export default function Home() {
         </section>
       </main>
     </div>
-  )
+  );
 }
