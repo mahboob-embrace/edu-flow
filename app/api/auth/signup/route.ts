@@ -1,24 +1,27 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import * as v from "valibot";
+
+const SignupSchema = v.object({
+  name: v.pipe(v.string(), v.minLength(1, "Name is required")),
+  email: v.pipe(v.string(), v.email("Invalid email address")),
+  password: v.pipe(v.string(), v.minLength(8, "Password must be at least 8 characters")),
+});
 
 export async function POST(request: Request) {
   try {
-    const { name, email, password } = await request.json();
+    const body = await request.json();
+    const result = v.safeParse(SignupSchema, body);
 
-    if (!email || !password) {
+    if (!result.success) {
       return NextResponse.json(
-        { error: "Email and password are required" },
+        { error: result.issues[0].message },
         { status: 400 }
       );
     }
 
-    if (password.length < 8) {
-      return NextResponse.json(
-        { error: "Password must be at least 8 characters" },
-        { status: 400 }
-      );
-    }
+    const { name, email, password } = result.output;
 
     const existingUser = await prisma.user.findUnique({
       where: { email },

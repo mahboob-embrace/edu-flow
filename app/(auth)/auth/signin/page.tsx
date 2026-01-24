@@ -40,7 +40,6 @@ export default function SignInPage() {
 
       if (result?.error) {
         setError("Invalid email or password");
-        setIsLoading(false);
         return;
       }
 

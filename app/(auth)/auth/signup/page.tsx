@@ -35,7 +35,6 @@ export default function SignUpPage() {
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
-      setIsLoading(false);
       return;
     }
 
@@ -50,7 +49,6 @@ export default function SignUpPage() {
 
       if (!response.ok) {
         setError(data.error || "Something went wrong");
-        setIsLoading(false);
         return;
       }
 
