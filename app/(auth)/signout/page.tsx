@@ -13,7 +13,7 @@ export default async function SignOutPage() {
   const session = await auth();
 
   if (!session) {
-    redirect("/auth/signin");
+    redirect("/sign-in");
   }
 
   return (

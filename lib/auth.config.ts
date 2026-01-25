@@ -54,8 +54,8 @@ export const authConfig: NextAuthConfig = {
     }),
   ],
   pages: {
-    signIn: "/auth/sign-in",
-    error: "/auth/error",
+    signIn: "/sign-in",
+    error: "/error",
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {

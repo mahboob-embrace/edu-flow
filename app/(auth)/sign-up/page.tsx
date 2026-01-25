@@ -60,7 +60,7 @@ export default function SignUpPage() {
 
       if (result?.error) {
         setError("Account created but sign in failed. Please sign in manually.");
-        router.push("/auth/sign-in");
+        router.push("/sign-in");
       } else {
         router.push("/dashboard");
         router.refresh();
@@ -196,7 +196,7 @@ export default function SignUpPage() {
         <p className="text-center text-sm text-muted-foreground w-full">
           Already have an account?{" "}
           <Link
-            href="/auth/sign-in"
+            href="/sign-in"
             className="underline underline-offset-4 hover:text-primary"
           >
             Sign in
