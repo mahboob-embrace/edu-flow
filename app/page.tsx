@@ -17,7 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
-import { useColorTheme, colorThemes } from "@/components/color-theme-provider";
+import { useColorTheme, colorThemes } from "@/components/theme";
 
 export default function Home() {
   const { colorTheme, setColorTheme } = useColorTheme();
