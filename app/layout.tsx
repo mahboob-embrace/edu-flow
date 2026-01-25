@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider, ColorThemeProvider } from "@/components/theme";
-import { SessionProvider } from "@/components/auth/session-provider";
+import { SessionProvider } from "@/components/auth";
 
 const fontSans = Figtree({subsets:['latin'],variable:'--font-sans'});
 

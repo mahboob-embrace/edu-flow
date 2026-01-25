@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { UserButton } from "@/components/auth/user-button";
+import { UserButton } from "@/components/auth";
 
 export default async function DashboardPage() {
   const session = await auth();
