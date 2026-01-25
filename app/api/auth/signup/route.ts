@@ -56,6 +56,23 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     console.error("Signup error:", error);
+    
+    // Handle specific Prisma database connection errors
+    if (error instanceof Error && error.message.includes("P1000")) {
+      return NextResponse.json(
+        { error: "Database connection failed. Please check your database configuration." },
+        { status: 500 }
+      );
+    }
+    
+    // Handle Prisma unique constraint errors
+    if (error instanceof Error && error.message.includes("P2002")) {
+      return NextResponse.json(
+        { error: "User with this email already exists" },
+        { status: 400 }
+      );
+    }
+    
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }
