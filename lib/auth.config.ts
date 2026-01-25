@@ -3,6 +3,12 @@ import Google from "next-auth/providers/google";
 import Facebook from "next-auth/providers/facebook";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
+import { protectedRoutes } from "@/config/routes";
+
+// Maximum failed login attempts before account lockout
+const MAX_FAILED_ATTEMPTS = 5;
+// Lockout duration in milliseconds (15 minutes)
+const LOCKOUT_DURATION_MS = 15 * 60 * 1000;
 
 export const authConfig: NextAuthConfig = {
   providers: [
@@ -26,22 +32,64 @@ export const authConfig: NextAuthConfig = {
         }
 
         const { prisma } = await import("@/lib/prisma");
-        
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string },
+
+        // Case-insensitive email lookup
+        const normalizedEmail = (credentials.email as string)
+          .toLowerCase()
+          .trim();
+
+        const user = await prisma.user.findFirst({
+          where: {
+            email: { equals: normalizedEmail, mode: "insensitive" },
+          },
         });
 
         if (!user || !user.password) {
           return null;
         }
 
+        // Check if user is active
+        if (!user.isActive) {
+          return null;
+        }
+
+        // Check if user is locked out
+        if (user.lockedUntil && new Date() < user.lockedUntil) {
+          return null;
+        }
+
         const isPasswordValid = await compare(
           credentials.password as string,
-          user.password
+          user.password,
         );
 
         if (!isPasswordValid) {
+          // Increment failed login attempts
+          const newFailedAttempts = user.failedLoginAttempts + 1;
+          const shouldLock = newFailedAttempts >= MAX_FAILED_ATTEMPTS;
+
+          await prisma.user.update({
+            where: { id: user.id },
+            data: {
+              failedLoginAttempts: newFailedAttempts,
+              lockedUntil: shouldLock
+                ? new Date(Date.now() + LOCKOUT_DURATION_MS)
+                : null,
+            },
+          });
+
           return null;
+        }
+
+        // Reset failed login attempts on successful login
+        if (user.failedLoginAttempts > 0) {
+          await prisma.user.update({
+            where: { id: user.id },
+            data: {
+              failedLoginAttempts: 0,
+              lockedUntil: null,
+            },
+          });
         }
 
         return {
@@ -61,9 +109,8 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const protectedRoutes = ["/dashboard", "/profile", "/settings"];
       const isProtectedRoute = protectedRoutes.some((route) =>
-        nextUrl.pathname.startsWith(route)
+        nextUrl.pathname.startsWith(route),
       );
 
       if (isProtectedRoute && !isLoggedIn) {
