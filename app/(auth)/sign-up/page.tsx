@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "next-auth/react";
+import { signInWithCredentials } from "@/lib/actions/auth";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -35,6 +36,7 @@ export default function SignUpPage() {
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
+      setIsLoading(false);
       return;
     }
 
@@ -52,13 +54,9 @@ export default function SignUpPage() {
         return;
       }
 
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      const result = await signInWithCredentials(email, password);
 
-      if (result?.error) {
+      if (result.error) {
         setError("Account created but sign in failed. Please sign in manually.");
         router.push("/sign-in");
       } else {

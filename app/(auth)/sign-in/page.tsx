@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { signInWithCredentials } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,14 +33,10 @@ export default function SignInPage() {
     const password = formData.get("password") as string;
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      const result = await signInWithCredentials(email, password);
 
-      if (result?.error) {
-        setError("Invalid email or password");
+      if (result.error) {
+        setError(result.error);
         return;
       }
 
