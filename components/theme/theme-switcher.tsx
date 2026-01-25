@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu"
-import { useColorTheme, colorThemes } from "@/components/color-theme-provider"
+import { useColorTheme, colorThemes } from "./color-theme-provider"
 
 export function ThemeSwitcher() {
   const { setTheme, theme } = useTheme()

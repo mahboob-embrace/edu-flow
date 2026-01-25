@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { ColorThemeProvider } from "@/components/color-theme-provider";
+import { ThemeProvider, ColorThemeProvider } from "@/components/theme";
+import { SessionProvider } from "@/components/auth";
 
 const fontSans = Figtree({subsets:['latin'],variable:'--font-sans'});
 
@@ -20,18 +20,20 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} antialiased`}
+        className={`${fontSans.variable} antialiased flex flex-col min-h-screen`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ColorThemeProvider>
-            {children}
-          </ColorThemeProvider>
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ColorThemeProvider>
+              {children}
+            </ColorThemeProvider>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
