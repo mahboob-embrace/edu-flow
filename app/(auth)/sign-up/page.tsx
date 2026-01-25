@@ -63,10 +63,10 @@ export default function SignUpPage() {
         setError(
           "Account created but sign in failed. Please sign in manually.",
         );
-        router.push("/sign-in");
+        window.location.href = "/sign-in";
       } else {
-        router.push("/dashboard");
-        router.refresh();
+        // Use window.location for full page reload to ensure cookies are picked up
+        window.location.href = "/dashboard";
       }
     } catch {
       setError("Something went wrong");

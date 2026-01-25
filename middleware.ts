@@ -1,15 +1,19 @@
-import { authMiddleware } from "@/lib/auth.edge";
-import { NextResponse } from "next/server";
-import {
-  protectedRoutes,
-  authRoutes,
-  apiAuthPrefix,
-  publicRoutes,
-} from "@/config/routes";
+import { NextResponse, type NextRequest } from "next/server";
+import { protectedRoutes, authRoutes, apiAuthPrefix } from "@/config/routes";
 
-export default authMiddleware((req) => {
-  const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
+/**
+ * Middleware for route protection
+ * Checks for session cookie to determine if user is authenticated
+ * Note: This is a simple cookie presence check - actual session validation
+ * happens in the server components via the auth() function
+ */
+export function middleware(request: NextRequest) {
+  const { nextUrl } = request;
+
+  // Check for NextAuth session cookie
+  // NextAuth v5 uses "authjs.session-token" for database sessions
+  const sessionToken = request.cookies.get("authjs.session-token")?.value;
+  const isLoggedIn = !!sessionToken;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isProtectedRoute = protectedRoutes.some((route) =>
@@ -18,7 +22,6 @@ export default authMiddleware((req) => {
   const isAuthRoute = authRoutes.some((route) =>
     nextUrl.pathname.startsWith(route),
   );
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
 
   // Allow API auth routes to pass through
   if (isApiAuthRoute) {
@@ -26,11 +29,8 @@ export default authMiddleware((req) => {
   }
 
   // Redirect logged-in users away from auth pages
-  if (isAuthRoute) {
-    if (isLoggedIn) {
-      return NextResponse.redirect(new URL("/dashboard", nextUrl));
-    }
-    return NextResponse.next();
+  if (isAuthRoute && isLoggedIn) {
+    return NextResponse.redirect(new URL("/dashboard", nextUrl));
   }
 
   // Protect routes that require authentication
@@ -42,7 +42,7 @@ export default authMiddleware((req) => {
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: [

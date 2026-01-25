@@ -45,8 +45,11 @@ export default function SignInPage() {
         return;
       }
 
-      router.push("/dashboard");
-      router.refresh();
+      // Use window.location for full page reload to ensure cookies are picked up
+      // Get callback URL from query params or default to dashboard
+      const params = new URLSearchParams(window.location.search);
+      const callbackUrl = params.get("callbackUrl") || "/dashboard";
+      window.location.href = callbackUrl;
     } catch {
       setError("Something went wrong");
     } finally {
