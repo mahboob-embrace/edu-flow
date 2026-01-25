@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,8 +15,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { signIn } from "next-auth/react";
 
-export default function SignInPage() {
+export default function SignUpPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,10 +28,30 @@ export default function SignInPage() {
     setError(null);
 
     const formData = new FormData(event.currentTarget);
+    const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
 
     try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Something went wrong");
+        return;
+      }
+
       const result = await signIn("credentials", {
         email,
         password,
@@ -39,12 +59,12 @@ export default function SignInPage() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password");
-        return;
+        setError("Account created but sign in failed. Please sign in manually.");
+        router.push("/auth/sign-in");
+      } else {
+        router.push("/dashboard");
+        router.refresh();
       }
-
-      router.push("/dashboard");
-      router.refresh();
     } catch {
       setError("Something went wrong");
     } finally {
@@ -55,8 +75,10 @@ export default function SignInPage() {
   return (
     <Card className="w-full">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
-        <CardDescription>Sign in to your account to continue</CardDescription>
+        <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
+        <CardDescription>
+          Enter your details below to create your account
+        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid grid-cols-2 gap-4">
@@ -116,6 +138,18 @@ export default function SignInPage() {
           )}
 
           <div className="grid gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="John Doe"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
@@ -128,32 +162,44 @@ export default function SignInPage() {
           </div>
 
           <div className="grid gap-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-            </div>
+            <Label htmlFor="password">Password</Label>
             <Input
               id="password"
               name="password"
               type="password"
               placeholder="••••••••"
               required
+              minLength={8}
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              placeholder="••••••••"
+              required
+              minLength={8}
               disabled={isLoading}
             />
           </div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign in"}
+            {isLoading ? "Creating account..." : "Create account"}
           </Button>
         </form>
       </CardContent>
       <CardFooter>
         <p className="text-center text-sm text-muted-foreground w-full">
-          Don&apos;t have an account?{" "}
+          Already have an account?{" "}
           <Link
-            href="/auth/signup"
+            href="/auth/sign-in"
             className="underline underline-offset-4 hover:text-primary"
           >
-            Sign up
+            Sign in
           </Link>
         </p>
       </CardFooter>

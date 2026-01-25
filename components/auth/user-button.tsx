@@ -28,7 +28,7 @@ export function UserButton() {
   if (!session) {
     return (
       <Button asChild>
-        <Link href="/auth/signin">Sign In</Link>
+        <Link href="/auth/sign-in">Sign In</Link>
       </Button>
     );
   }
