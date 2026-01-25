@@ -1,5 +1,11 @@
 import { auth } from "@/lib/auth";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui";
 import { UserButton } from "@/components/auth";
 
 export default async function DashboardPage() {
@@ -24,7 +30,8 @@ export default async function DashboardPage() {
                 <span className="font-medium">Name:</span> {session?.user?.name}
               </p>
               <p className="text-sm">
-                <span className="font-medium">Email:</span> {session?.user?.email}
+                <span className="font-medium">Email:</span>{" "}
+                {session?.user?.email}
               </p>
             </div>
           </CardContent>
@@ -33,7 +40,9 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle>Protected Content</CardTitle>
-            <CardDescription>This page is protected by authentication</CardDescription>
+            <CardDescription>
+              This page is protected by authentication
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
