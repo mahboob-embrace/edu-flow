@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "next-auth/react";
-import { signInWithCredentials } from "@/lib/actions/auth";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -54,9 +53,13 @@ export default function SignUpPage() {
         return;
       }
 
-      const result = await signInWithCredentials(email, password);
+      const signInResponse = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-      if (result.error) {
+      if (!signInResponse.ok) {
         setError("Account created but sign in failed. Please sign in manually.");
         router.push("/sign-in");
       } else {
