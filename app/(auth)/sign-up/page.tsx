@@ -63,10 +63,9 @@ export default function SignUpPage() {
         setError(
           "Account created but sign in failed. Please sign in manually.",
         );
-        window.location.href = "/sign-in";
+        router.push("/sign-in");
       } else {
-        // Use window.location for full page reload to ensure cookies are picked up
-        window.location.href = "/dashboard";
+        router.refresh();
       }
     } catch {
       setError("Something went wrong");

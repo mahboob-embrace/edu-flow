@@ -27,6 +27,14 @@ export async function POST(request: Request) {
   try {
     // Rate limiting
     const clientIp = getClientIp(request);
+    if (!clientIp) {
+      console.error("Failed to get client IP");
+      return NextResponse.json(
+        { error: "Cannot process request." },
+        { status: 400 },
+      );
+    }
+
     const rateLimitResult = rateLimit(`signup:${clientIp}`, {
       maxRequests: 3,
       windowMs: 60 * 1000, // 3 requests per minute for signup
@@ -47,16 +55,16 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const result = v.safeParse(SignupSchema, body);
+    const { success, output, issues } = v.safeParse(SignupSchema, body);
 
-    if (!result.success) {
+    if (!success) {
       return NextResponse.json(
-        { error: result.issues[0].message },
+        { error: issues[0].message },
         { status: 400 },
       );
     }
 
-    const { name, email, password } = result.output;
+    const { name, email, password } = output;
 
     // Normalize email to lowercase
     const normalizedEmail = email.toLowerCase().trim();

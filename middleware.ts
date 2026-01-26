@@ -19,6 +19,7 @@ export function middleware(request: NextRequest) {
   const isProtectedRoute = protectedRoutes.some((route) =>
     nextUrl.pathname.startsWith(route),
   );
+
   const isAuthRoute = authRoutes.some((route) =>
     nextUrl.pathname.startsWith(route),
   );

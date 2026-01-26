@@ -14,6 +14,14 @@ export async function POST(request: Request) {
   try {
     // Rate limiting
     const clientIp = getClientIp(request);
+    if (!clientIp) {
+      console.error("Failed to get client IP");
+      return NextResponse.json(
+        { error: "Cannot process request." },
+        { status: 400 },
+      );
+    }
+
     const rateLimitResult = rateLimit(`signin:${clientIp}`, {
       maxRequests: 5,
       windowMs: 60 * 1000, // 5 requests per minute
