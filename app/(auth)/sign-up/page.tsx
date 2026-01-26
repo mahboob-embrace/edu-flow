@@ -65,7 +65,6 @@ export default function SignUpPage() {
         );
         router.push("/sign-in");
       } else {
-        router.push("/dashboard");
         router.refresh();
       }
     } catch {
