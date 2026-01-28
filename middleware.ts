@@ -1,14 +1,27 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { protectedRoutes, authRoutes, apiAuthPrefix } from "@/config/routes";
+import { locales, defaultLocale, LOCALE_COOKIE_NAME, type Locale } from "@/i18n/config";
 
 /**
- * Middleware for route protection
+ * Middleware for route protection and internationalization
  * Checks for session cookie to determine if user is authenticated
- * Note: This is a simple cookie presence check - actual session validation
- * happens in the server components via the auth() function
+ * Handles locale detection from cookies
  */
 export function middleware(request: NextRequest) {
   const { nextUrl } = request;
+
+  // Create response
+  const response = NextResponse.next();
+
+  // Set locale cookie if not present
+  const localeCookie = request.cookies.get(LOCALE_COOKIE_NAME)?.value;
+  if (!localeCookie || !locales.includes(localeCookie as Locale)) {
+    response.cookies.set(LOCALE_COOKIE_NAME, defaultLocale, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365, // 1 year
+      sameSite: "lax",
+    });
+  }
 
   // Check for NextAuth session cookie
   // NextAuth v5 uses "authjs.session-token" for database sessions
@@ -26,7 +39,7 @@ export function middleware(request: NextRequest) {
 
   // Allow API auth routes to pass through
   if (isApiAuthRoute) {
-    return NextResponse.next();
+    return response;
   }
 
   // Redirect logged-in users away from auth pages
@@ -42,7 +55,7 @@ export function middleware(request: NextRequest) {
     );
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
