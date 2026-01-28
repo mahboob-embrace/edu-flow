@@ -1,0 +1,53 @@
+{
+  "common": {
+    "loading": "Indlæser...",
+    "error": "Der opstod en fejl",
+    "save": "Gem",
+    "cancel": "Annuller",
+    "delete": "Slet",
+    "edit": "Rediger",
+    "create": "Opret",
+    "search": "Søg",
+    "submit": "Indsend",
+    "back": "Tilbage",
+    "next": "Næste",
+    "previous": "Forrige",
+    "close": "Luk",
+    "confirm": "Bekræft",
+    "yes": "Ja",
+    "no": "Nej"
+  },
+  "auth": {
+    "signIn": "Log ind",
+    "signUp": "Opret konto",
+    "signOut": "Log ud",
+    "email": "E-mail",
+    "password": "Adgangskode",
+    "confirmPassword": "Bekræft adgangskode",
+    "forgotPassword": "Glemt adgangskode?",
+    "noAccount": "Har du ikke en konto?",
+    "hasAccount": "Har du allerede en konto?",
+    "createAccount": "Opret konto",
+    "welcomeBack": "Velkommen tilbage",
+    "enterCredentials": "Indtast dine oplysninger for at fortsætte"
+  },
+  "navigation": {
+    "home": "Hjem",
+    "dashboard": "Oversigt",
+    "settings": "Indstillinger",
+    "profile": "Profil"
+  },
+  "settings": {
+    "language": "Sprog",
+    "theme": "Tema",
+    "darkMode": "Mørk tilstand",
+    "lightMode": "Lys tilstand",
+    "system": "System"
+  },
+  "errors": {
+    "notFound": "Side ikke fundet",
+    "unauthorized": "Ikke autoriseret",
+    "forbidden": "Forbudt",
+    "serverError": "Serverfejl"
+  }
+}
