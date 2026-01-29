@@ -9,7 +9,7 @@ description:
 license: MIT
 metadata:
   author: vercel
-  version: '1.0.0'
+  version: "1.0.0"
 ---
 
 # React Composition Patterns
@@ -66,7 +66,7 @@ Reference these guidelines when:
 
 > **⚠️ React 19+ only.** Skip this section if using React 18 or earlier.
 
-- `react19-no-forwardref` - Don't use `forwardRef`; use `use()` instead of `useContext()`
+- `react19-no-forwardref` - Use `ref` as a prop (no `forwardRef`) and `use()` instead of `useContext()`
 
 ## How to Use
 
