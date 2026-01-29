@@ -18,18 +18,24 @@
     "no": "No"
   },
   "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
     "signOut": "Sign Out",
+    "signingIn": "Signing in...",
     "email": "Email",
+    "emailPlaceholder": "name@example.com",
     "password": "Password",
+    "passwordPlaceholder": "••••••••",
     "confirmPassword": "Confirm Password",
     "forgotPassword": "Forgot Password?",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
     "createAccount": "Create Account",
     "welcomeBack": "Welcome back",
-    "enterCredentials": "Enter your credentials to continue"
+    "signInDescription": "Sign in to your account to continue",
+    "orContinueWith": "Or continue with",
+    "invalidCredentials": "Invalid email or password",
+    "somethingWentWrong": "Something went wrong"
   },
   "navigation": {
     "home": "Home",

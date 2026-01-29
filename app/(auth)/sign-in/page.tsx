@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import {
   Button,
   Input,
@@ -18,6 +19,7 @@ import {
 } from "@/components/ui";
 
 export default function SignInPage() {
+  const t = useTranslations("auth");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,13 +43,13 @@ export default function SignInPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Invalid email or password");
+        setError(data.error || t("invalidCredentials"));
         return;
       }
 
       router.refresh();
     } catch {
-      setError("Something went wrong");
+      setError(t("somethingWentWrong"));
     } finally {
       setIsLoading(false);
     }
@@ -56,8 +58,8 @@ export default function SignInPage() {
   return (
     <Card className="w-full">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
-        <CardDescription>Sign in to your account to continue</CardDescription>
+        <CardTitle className="text-2xl font-bold">{t("welcomeBack")}</CardTitle>
+        <CardDescription>{t("signInDescription")}</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid grid-cols-2 gap-4">
@@ -104,7 +106,7 @@ export default function SignInPage() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
+              {t("orContinueWith")}
             </span>
           </div>
         </div>
@@ -117,12 +119,12 @@ export default function SignInPage() {
           )}
 
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("email")}</Label>
             <Input
               id="email"
               name="email"
               type="email"
-              placeholder="name@example.com"
+              placeholder={t("emailPlaceholder")}
               required
               disabled={isLoading}
             />
@@ -130,31 +132,31 @@ export default function SignInPage() {
 
           <div className="grid gap-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t("password")}</Label>
             </div>
             <Input
               id="password"
               name="password"
               type="password"
-              placeholder="••••••••"
+              placeholder={t("passwordPlaceholder")}
               required
               disabled={isLoading}
             />
           </div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign in"}
+            {isLoading ? t("signingIn") : t("signIn")}
           </Button>
         </form>
       </CardContent>
       <CardFooter>
         <p className="text-center text-sm text-muted-foreground w-full">
-          Don&apos;t have an account?{" "}
+          {t("noAccount")}{" "}
           <Link
             href="/sign-up"
             className="underline underline-offset-4 hover:text-primary"
           >
-            Sign up
+            {t("signUp")}
           </Link>
         </p>
       </CardFooter>

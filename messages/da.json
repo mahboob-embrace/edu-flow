@@ -21,15 +21,21 @@
     "signIn": "Log ind",
     "signUp": "Opret konto",
     "signOut": "Log ud",
+    "signingIn": "Logger ind...",
     "email": "E-mail",
+    "emailPlaceholder": "navn@eksempel.dk",
     "password": "Adgangskode",
+    "passwordPlaceholder": "••••••••",
     "confirmPassword": "Bekræft adgangskode",
     "forgotPassword": "Glemt adgangskode?",
     "noAccount": "Har du ikke en konto?",
     "hasAccount": "Har du allerede en konto?",
     "createAccount": "Opret konto",
     "welcomeBack": "Velkommen tilbage",
-    "enterCredentials": "Indtast dine oplysninger for at fortsætte"
+    "signInDescription": "Log ind på din konto for at fortsætte",
+    "orContinueWith": "Eller fortsæt med",
+    "invalidCredentials": "Ugyldig e-mail eller adgangskode",
+    "somethingWentWrong": "Noget gik galt"
   },
   "navigation": {
     "home": "Hjem",
