@@ -1,0 +1,100 @@
+# Gemini Code Assist Configuration
+# https://cloud.google.com/gemini/docs/codeassist/customize
+
+codeReview:
+  # Translation and i18n review rules
+  rules:
+    - name: "check-hardcoded-strings"
+      description: "Flag hardcoded user-facing strings that should be translated"
+      instruction: |
+        Review for hardcoded strings in React components that should use translations.
+        Look for:
+        - Text content in JSX that isn't wrapped in translation functions (t(), useTranslations)
+        - Hardcoded strings in labels, placeholders, titles, descriptions, error messages
+        - Alert/toast messages with hardcoded text
+        Flag these as issues and suggest using the `useTranslations` hook from next-intl.
+
+    - name: "translation-key-consistency"
+      description: "Ensure translation keys are consistent across all language files"
+      instruction: |
+        When reviewing changes to message files (messages/*.json):
+        - Check that all keys exist in en.json, da.json, and ar.json
+        - Flag any missing keys in any language file
+        - Ensure key naming follows camelCase convention
+        - Verify nested structure is consistent across all files
+
+    - name: "translation-completeness"
+      description: "Check that translations are complete and not placeholder text"
+      instruction: |
+        Review translation values for:
+        - Empty strings or placeholder text like "TODO", "FIXME", "[translate]"
+        - Values that are identical to English in non-English files (may indicate untranslated)
+        - RTL languages (Arabic) should have appropriate RTL text, not LTR placeholders
+
+    - name: "i18n-best-practices"
+      description: "Enforce i18n best practices"
+      instruction: |
+        Check for:
+        - Proper use of pluralization when needed
+        - No string concatenation for translated content (use interpolation instead)
+        - Date/number formatting should use locale-aware methods
+        - Links and dynamic content within translations use proper interpolation
+
+    - name: "no-any-type"
+      description: "Disallow use of 'any' type in TypeScript"
+      instruction: |
+        Flag any usage of the `any` type in TypeScript/TSX files:
+        - Explicit `any` annotations (e.g., `const x: any`, `param: any`)
+        - `as any` type assertions
+        - Function parameters or return types using `any`
+        Suggest alternatives:
+        - Use `unknown` with type guards for truly unknown types
+        - Use proper interfaces or type aliases
+        - Use generic types when flexibility is needed
+        - Use Zod or similar for runtime validation of external data
+
+    - name: "proper-type-annotations"
+      description: "Ensure proper TypeScript type annotations"
+      instruction: |
+        Review for proper typing practices:
+        - Public APIs (exports, route handlers, server actions) should have explicit types
+        - Avoid implicit `any` from untyped parameters
+        - Event handlers should use proper React event types (e.g., React.FormEvent<HTMLFormElement>)
+        - API responses should be typed with interfaces
+        - Prefer type inference for local variables, explicit types for function signatures
+
+    - name: "type-safety"
+      description: "Enforce type safety best practices"
+      instruction: |
+        Check for type safety issues:
+        - No non-null assertions (!) without justification
+        - Use optional chaining (?.) and nullish coalescing (??) appropriately
+        - Discriminated unions instead of enums where appropriate
+        - No type assertions (as Type) unless absolutely necessary
+        - Prefer `satisfies` operator for type checking without widening
+
+# File patterns to apply translation rules
+filePatterns:
+  translations:
+    - "messages/**/*.json"
+  components:
+    - "app/**/*.tsx"
+    - "components/**/*.tsx"
+
+# Languages supported in the project
+i18n:
+  defaultLocale: "en"
+  supportedLocales:
+    - code: "en"
+      name: "English"
+      direction: "ltr"
+    - code: "da"
+      name: "Danish"
+      direction: "ltr"
+    - code: "ar"
+      name: "Arabic"
+      direction: "rtl"
+  messageFiles:
+    - "messages/en.json"
+    - "messages/da.json"
+    - "messages/ar.json"
