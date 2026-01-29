@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   Button,
   Input,
@@ -18,6 +19,7 @@ import {
 import { signIn } from "next-auth/react";
 
 export default function SignUpPage() {
+  const t = useTranslations("auth");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +36,7 @@ export default function SignUpPage() {
     const confirmPassword = formData.get("confirmPassword") as string;
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(t("passwordsDoNotMatch"));
       setIsLoading(false);
       return;
     }
@@ -49,7 +51,7 @@ export default function SignUpPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Something went wrong");
+        setError(data.error || t("somethingWentWrong"));
         return;
       }
 
@@ -60,15 +62,13 @@ export default function SignUpPage() {
       });
 
       if (!signInResponse.ok) {
-        setError(
-          "Account created but sign in failed. Please sign in manually.",
-        );
+        setError(t("accountCreatedSignInFailed"));
         router.push("/sign-in");
       } else {
         router.refresh();
       }
     } catch {
-      setError("Something went wrong");
+      setError(t("somethingWentWrong"));
     } finally {
       setIsLoading(false);
     }
@@ -77,10 +77,10 @@ export default function SignUpPage() {
   return (
     <Card className="w-full">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
-        <CardDescription>
-          Enter your details below to create your account
-        </CardDescription>
+        <CardTitle className="text-2xl font-bold">
+          {t("createAccountTitle")}
+        </CardTitle>
+        <CardDescription>{t("signUpDescription")}</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid grid-cols-2 gap-4">
@@ -127,7 +127,7 @@ export default function SignUpPage() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
+              {t("orContinueWith")}
             </span>
           </div>
         </div>
@@ -140,36 +140,36 @@ export default function SignUpPage() {
           )}
 
           <div className="grid gap-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">{t("name")}</Label>
             <Input
               id="name"
               name="name"
               type="text"
-              placeholder="John Doe"
+              placeholder={t("namePlaceholder")}
               required
               disabled={isLoading}
             />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("email")}</Label>
             <Input
               id="email"
               name="email"
               type="email"
-              placeholder="name@example.com"
+              placeholder={t("emailPlaceholder")}
               required
               disabled={isLoading}
             />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("password")}</Label>
             <Input
               id="password"
               name="password"
               type="password"
-              placeholder="••••••••"
+              placeholder={t("passwordPlaceholder")}
               required
               minLength={8}
               disabled={isLoading}
@@ -177,12 +177,12 @@ export default function SignUpPage() {
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>
             <Input
               id="confirmPassword"
               name="confirmPassword"
               type="password"
-              placeholder="••••••••"
+              placeholder={t("passwordPlaceholder")}
               required
               minLength={8}
               disabled={isLoading}
@@ -190,18 +190,18 @@ export default function SignUpPage() {
           </div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Creating account..." : "Create account"}
+            {isLoading ? t("signingUp") : t("createAccount")}
           </Button>
         </form>
       </CardContent>
       <CardFooter>
         <p className="text-center text-sm text-muted-foreground w-full">
-          Already have an account?{" "}
+          {t("hasAccount")}{" "}
           <Link
             href="/sign-in"
             className="underline underline-offset-4 hover:text-primary"
           >
-            Sign in
+            {t("signIn")}
           </Link>
         </p>
       </CardFooter>
