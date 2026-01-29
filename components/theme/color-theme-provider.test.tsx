@@ -1,7 +1,6 @@
 import { render, screen, waitFor, renderHook } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
-import * as React from "react";
 import {
   ColorThemeProvider,
   useColorTheme,
@@ -9,12 +8,8 @@ import {
 } from "./color-theme-provider";
 
 // Helper component to test the hook
-function TestComponent({ onRender }: { onRender?: () => void }) {
+function TestComponent() {
   const { colorTheme, setColorTheme } = useColorTheme();
-
-  React.useEffect(() => {
-    onRender?.();
-  }, [onRender]);
 
   return (
     <div>
