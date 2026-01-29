@@ -20,7 +20,7 @@ jest.mock("next/link", () => {
   }: {
     children: React.ReactNode;
     href: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }) {
     return (
       <a href={href} {...props}>

@@ -1,8 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import * as React from "react";
 import { LocaleSwitcher } from "./locale-switcher";
-import { locales, localeNames, type Locale } from "@/i18n/config";
+import { locales } from "@/i18n/config";
 import { setLocale } from "@/i18n/actions";
 import { useRouter } from "next/navigation";
 
@@ -30,7 +29,9 @@ describe("LocaleSwitcher", () => {
       refresh: jest.fn(),
     };
 
-    mockUseRouter.mockReturnValue(mockRouter as any);
+    mockUseRouter.mockReturnValue(
+      mockRouter as unknown as ReturnType<typeof useRouter>,
+    );
     mockSetLocale.mockResolvedValue();
   });
 
