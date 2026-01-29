@@ -14,6 +14,7 @@ Comprehensive performance optimization guide for React and Next.js applications,
 ## When to Apply
 
 Reference these guidelines when:
+
 - Writing new React components or Next.js pages
 - Implementing data fetching (client or server-side)
 - Reviewing code for performance issues
@@ -22,16 +23,16 @@ Reference these guidelines when:
 
 ## Rule Categories by Priority
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Eliminating Waterfalls | CRITICAL | `async-` |
-| 2 | Bundle Size Optimization | CRITICAL | `bundle-` |
-| 3 | Server-Side Performance | HIGH | `server-` |
-| 4 | Client-Side Data Fetching | MEDIUM-HIGH | `client-` |
-| 5 | Re-render Optimization | MEDIUM | `rerender-` |
-| 6 | Rendering Performance | MEDIUM | `rendering-` |
-| 7 | JavaScript Performance | LOW-MEDIUM | `js-` |
-| 8 | Advanced Patterns | LOW | `advanced-` |
+| Priority | Category                  | Impact      | Prefix       |
+| -------- | ------------------------- | ----------- | ------------ |
+| 1        | Eliminating Waterfalls    | CRITICAL    | `async-`     |
+| 2        | Bundle Size Optimization  | CRITICAL    | `bundle-`    |
+| 3        | Server-Side Performance   | HIGH        | `server-`    |
+| 4        | Client-Side Data Fetching | MEDIUM-HIGH | `client-`    |
+| 5        | Re-render Optimization    | MEDIUM      | `rerender-`  |
+| 6        | Rendering Performance     | MEDIUM      | `rendering-` |
+| 7        | JavaScript Performance    | LOW-MEDIUM  | `js-`        |
+| 8        | Advanced Patterns         | LOW         | `advanced-`  |
 
 ## Quick Reference
 
@@ -114,7 +115,7 @@ Reference these guidelines when:
 
 - `advanced-event-handler-refs` - Store event handlers in refs
 - `advanced-init-once` - Initialize app once per app load
-- `advanced-use-latest` - useLatest for stable callback refs
+- `advanced-use-effect-event` - useEffectEvent for stable callback refs
 
 ## How to Use
 
@@ -126,6 +127,7 @@ rules/bundle-barrel-imports.md
 ```
 
 Each rule file contains:
+
 - Brief explanation of why it matters
 - Incorrect code example with explanation
 - Correct code example with explanation

@@ -707,7 +707,7 @@ RSC→client serialization deduplicates by object reference, not value. Same ref
 
 // Client: transform there
 ("use client");
-const sorted = useMemo(() => [...usernames].sort(), [usernames]);
+const sorted = useMemo(() => usernames.toSorted(), [usernames]);
 ```
 
 **Nested deduplication behavior:**
@@ -2515,7 +2515,7 @@ In real-world applications, this optimization is especially valuable when the co
 ```typescript
 function hasChanges(current: string[], original: string[]) {
   // Always sorts and joins, even when lengths differ
-  return current.sort().join() !== original.sort().join();
+  return [...current].sort().join() !== [...original].sort().join();
 }
 ```
 
