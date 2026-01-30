@@ -5,7 +5,6 @@ import { POST } from "./route";
 import { prisma } from "@/lib/prisma";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import { compare } from "bcryptjs";
-import { cookies } from "next/headers";
 
 // Mock dependencies
 jest.mock("@/lib/prisma", () => ({
@@ -27,10 +26,6 @@ jest.mock("@/lib/rate-limit", () => ({
 
 jest.mock("bcryptjs", () => ({
   compare: jest.fn(),
-}));
-
-jest.mock("next/headers", () => ({
-  cookies: jest.fn(),
 }));
 
 // Helper to create mock request
@@ -60,8 +55,6 @@ function createMockUser(overrides = {}) {
 }
 
 describe("POST /api/auth/signin", () => {
-  const mockCookieSet = jest.fn();
-
   beforeEach(() => {
     jest.clearAllMocks();
 
@@ -71,9 +64,6 @@ describe("POST /api/auth/signin", () => {
       success: true,
       remaining: 4,
       resetTime: Date.now() + 60000,
-    });
-    (cookies as jest.Mock).mockResolvedValue({
-      set: mockCookieSet,
     });
   });
 
@@ -381,17 +371,14 @@ describe("POST /api/auth/signin", () => {
         email: "test@example.com",
         password: "password123",
       });
-      await POST(request);
+      const response = await POST(request);
 
-      expect(mockCookieSet).toHaveBeenCalledWith(
-        "authjs.session-token",
-        expect.any(String),
-        expect.objectContaining({
-          httpOnly: true,
-          sameSite: "lax",
-          path: "/",
-        }),
-      );
+      const setCookie = response.headers.get("Set-Cookie");
+      expect(setCookie).toBeDefined();
+      expect(setCookie).toContain("authjs.session-token=");
+      expect(setCookie).toContain("HttpOnly");
+      expect(setCookie).toContain("SameSite=lax");
+      expect(setCookie).toContain("Path=/");
     });
 
     it("resets failed login attempts on successful login", async () => {
