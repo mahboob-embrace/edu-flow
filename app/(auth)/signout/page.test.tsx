@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import SignOutPage from "./page";
-import { auth } from "../../../lib/auth";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 // Mock the dependencies
-jest.mock("../../../lib/auth", () => ({
+jest.mock("@/lib/auth", () => ({
   auth: jest.fn(),
   signOut: jest.fn(),
 }));
