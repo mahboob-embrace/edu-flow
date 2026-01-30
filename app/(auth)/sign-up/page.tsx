@@ -17,6 +17,7 @@ import {
   Separator,
 } from "@/components/ui";
 import { signIn } from "next-auth/react";
+import { hardNavigate } from "@/lib/navigation";
 
 export default function SignUpPage() {
   const t = useTranslations("auth");
@@ -65,7 +66,8 @@ export default function SignUpPage() {
         setError(t("accountCreatedSignInFailed"));
         router.push("/sign-in");
       } else {
-        window.location.href = "/dashboard";
+        // Use hardNavigate for full page reload to ensure cookies are picked up
+        hardNavigate("/dashboard");
       }
     } catch {
       setError(t("somethingWentWrong"));
@@ -75,7 +77,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full" data-testid="signup-card">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-2xl font-bold">
           {t("createAccountTitle")}
@@ -88,6 +90,7 @@ export default function SignUpPage() {
             variant="outline"
             onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
             disabled={isLoading}
+            data-testid="google-signup"
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
@@ -113,6 +116,7 @@ export default function SignUpPage() {
             variant="outline"
             onClick={() => signIn("facebook", { callbackUrl: "/dashboard" })}
             disabled={isLoading}
+            data-testid="facebook-signup"
           >
             <svg className="mr-2 h-4 w-4" fill="#1877F2" viewBox="0 0 24 24">
               <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -132,9 +136,16 @@ export default function SignUpPage() {
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className="grid gap-4">
+        <form
+          onSubmit={onSubmit}
+          className="grid gap-4"
+          data-testid="signup-form"
+        >
           {error && (
-            <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
+            <div
+              className="p-3 text-sm text-destructive bg-destructive/10 rounded-md"
+              data-testid="signup-error"
+            >
               {error}
             </div>
           )}
@@ -148,6 +159,7 @@ export default function SignUpPage() {
               placeholder={t("namePlaceholder")}
               required
               disabled={isLoading}
+              data-testid="name-input"
             />
           </div>
 
@@ -160,6 +172,7 @@ export default function SignUpPage() {
               placeholder={t("emailPlaceholder")}
               required
               disabled={isLoading}
+              data-testid="email-input"
             />
           </div>
 
@@ -173,6 +186,7 @@ export default function SignUpPage() {
               required
               minLength={8}
               disabled={isLoading}
+              data-testid="password-input"
             />
           </div>
 
@@ -186,10 +200,16 @@ export default function SignUpPage() {
               required
               minLength={8}
               disabled={isLoading}
+              data-testid="confirm-password-input"
             />
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isLoading}
+            data-testid="signup-submit"
+          >
             {isLoading ? t("signingUp") : t("createAccount")}
           </Button>
         </form>
@@ -200,6 +220,7 @@ export default function SignUpPage() {
           <Link
             href="/sign-in"
             className="underline underline-offset-4 hover:text-primary"
+            data-testid="signin-link"
           >
             {t("signIn")}
           </Link>
