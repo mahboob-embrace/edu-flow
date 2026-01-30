@@ -31,7 +31,12 @@ export function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" disabled={isPending}>
+        <Button
+          variant="ghost"
+          size="icon"
+          disabled={isPending}
+          data-testid="locale-switcher-trigger"
+        >
           <Globe className="h-5 w-5" />
           <span className="sr-only">Switch language</span>
         </Button>
@@ -42,6 +47,7 @@ export function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
             key={locale}
             onClick={() => handleLocaleChange(locale)}
             className={currentLocale === locale ? "bg-accent" : ""}
+            data-testid={`locale-option-${locale}`}
           >
             {localeNames[locale]}
           </DropdownMenuItem>
