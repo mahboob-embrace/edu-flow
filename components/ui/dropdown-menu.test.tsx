@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
   DropdownMenu,
@@ -112,9 +112,9 @@ describe("DropdownMenu Components", () => {
         expect(screen.getByText("Menu Item")).toBeInTheDocument();
       });
 
-      // Click outside using fireEvent (works better with Radix UI portals)
+      // Click outside using userEvent
       const outsideButton = screen.getByTestId("outside-button");
-      fireEvent.click(outsideButton);
+      await user.click(outsideButton);
 
       await waitFor(() => {
         expect(screen.queryByText("Menu Item")).not.toBeInTheDocument();
@@ -597,7 +597,7 @@ describe("DropdownMenu Components", () => {
       );
 
       const trigger = screen.getByTestId("trigger");
-      trigger.focus();
+      await user.tab(); // Focus the trigger
       expect(trigger).toHaveFocus();
 
       // Open with Enter

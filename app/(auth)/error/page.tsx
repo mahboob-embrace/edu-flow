@@ -24,15 +24,20 @@ export default function AuthErrorPage({
   const errorMessage = errorMessages[error] || errorMessages.Default;
 
   return (
-    <Card className="w-full">
+    <Card className="w-full" data-testid="auth-error-card">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold text-destructive">
+        <CardTitle
+          className="text-2xl font-bold text-destructive"
+          data-testid="auth-error-title"
+        >
           Authentication Error
         </CardTitle>
-        <CardDescription>{errorMessage}</CardDescription>
+        <CardDescription data-testid="auth-error-description">
+          {errorMessage}
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <Button asChild className="w-full">
+        <Button asChild className="w-full" data-testid="auth-error-button">
           <Link href="/sign-in">Try Again</Link>
         </Button>
       </CardContent>

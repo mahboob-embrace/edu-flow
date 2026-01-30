@@ -17,19 +17,29 @@ export default async function SignOutPage() {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full" data-testid="signout-card">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl font-bold">Sign Out</CardTitle>
-        <CardDescription>Are you sure you want to sign out?</CardDescription>
+        <CardTitle className="text-2xl font-bold" data-testid="signout-title">
+          Sign Out
+        </CardTitle>
+        <CardDescription data-testid="signout-description">
+          Are you sure you want to sign out?
+        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <form
+          data-testid="signout-form"
           action={async () => {
             "use server";
             await signOut({ redirectTo: "/" });
           }}
         >
-          <Button variant="destructive" className="w-full" type="submit">
+          <Button
+            variant="destructive"
+            className="w-full"
+            type="submit"
+            data-testid="signout-button"
+          >
             Sign Out
           </Button>
         </form>
