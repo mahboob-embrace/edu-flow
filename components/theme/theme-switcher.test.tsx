@@ -49,11 +49,19 @@ describe("ThemeSwitcher", () => {
       renderThemeSwitcher();
 
       // In JSDOM, useEffect runs synchronously, so the mounted state is immediately true
-      // We just verify the component renders correctly
+      // We verify the component renders correctly in its mounted state
       await waitFor(() => {
         expect(
           screen.getByTestId("theme-switcher-trigger"),
         ).toBeInTheDocument();
+      });
+    });
+
+    it("trigger button is not disabled after mounting", async () => {
+      renderThemeSwitcher();
+
+      await waitFor(() => {
+        expect(screen.getByTestId("theme-switcher-trigger")).not.toBeDisabled();
       });
     });
 

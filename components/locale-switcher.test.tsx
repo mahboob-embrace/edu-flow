@@ -391,11 +391,21 @@ describe("LocaleSwitcher", () => {
       });
     });
 
-    it("handles rapid locale switching", async () => {
+    it("prevents interaction while locale change is in progress", async () => {
       const user = userEvent.setup();
+
+      // Mock setLocale to delay resolution so we can test the pending state
+      mockSetLocale.mockImplementation(
+        () => new Promise((resolve) => setTimeout(resolve, 100)),
+      );
+
       render(<LocaleSwitcher currentLocale="en" />);
 
-      await user.click(screen.getByTestId("locale-switcher-trigger"));
+      const trigger = screen.getByTestId("locale-switcher-trigger");
+      expect(trigger).not.toBeDisabled();
+
+      // Open dropdown and select a locale
+      await user.click(trigger);
 
       await waitFor(() => {
         expect(screen.getByTestId("locale-option-da")).toBeInTheDocument();
@@ -403,19 +413,29 @@ describe("LocaleSwitcher", () => {
 
       await user.click(screen.getByTestId("locale-option-da"));
 
-      // Immediately try to switch again
-      await user.click(screen.getByTestId("locale-switcher-trigger"));
-
+      // Dropdown should close after selection
       await waitFor(() => {
-        expect(screen.getByTestId("locale-option-ar")).toBeInTheDocument();
+        expect(
+          screen.queryByTestId("locale-option-da"),
+        ).not.toBeInTheDocument();
       });
 
-      await user.click(screen.getByTestId("locale-option-ar"));
-
+      // Button should be disabled during transition
       await waitFor(() => {
-        expect(mockSetLocale).toHaveBeenCalledWith("da");
-        expect(mockSetLocale).toHaveBeenCalledWith("ar");
+        expect(trigger).toBeDisabled();
       });
+
+      // Verify setLocale was called
+      expect(mockSetLocale).toHaveBeenCalledWith("da");
+      expect(mockSetLocale).toHaveBeenCalledTimes(1);
+
+      // Verify that clicking the disabled button does nothing
+      // (userEvent will still fire the click event, but the button should ignore it)
+      const clicksBefore = mockSetLocale.mock.calls.length;
+      await user.click(trigger);
+
+      // No additional calls should have been made
+      expect(mockSetLocale).toHaveBeenCalledTimes(clicksBefore);
     });
   });
 
