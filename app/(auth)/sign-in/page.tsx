@@ -46,8 +46,7 @@ export default function SignInPage() {
         setError(data.error || t("invalidCredentials"));
         return;
       }
-
-      window.location.href = "/dashboard";
+      window.location.assign("/dashboard");
     } catch {
       setError(t("somethingWentWrong"));
     } finally {
@@ -56,7 +55,7 @@ export default function SignInPage() {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full" data-testid="signin-card">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-2xl font-bold">{t("welcomeBack")}</CardTitle>
         <CardDescription>{t("signInDescription")}</CardDescription>
@@ -67,6 +66,7 @@ export default function SignInPage() {
             variant="outline"
             onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
             disabled={isLoading}
+            data-testid="google-signin"
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
@@ -92,6 +92,7 @@ export default function SignInPage() {
             variant="outline"
             onClick={() => signIn("facebook", { callbackUrl: "/dashboard" })}
             disabled={isLoading}
+            data-testid="facebook-signin"
           >
             <svg className="mr-2 h-4 w-4" fill="#1877F2" viewBox="0 0 24 24">
               <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -111,9 +112,16 @@ export default function SignInPage() {
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className="grid gap-4">
+        <form
+          onSubmit={onSubmit}
+          className="grid gap-4"
+          data-testid="signin-form"
+        >
           {error && (
-            <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
+            <div
+              className="p-3 text-sm text-destructive bg-destructive/10 rounded-md"
+              data-testid="signin-error"
+            >
               {error}
             </div>
           )}
@@ -127,6 +135,7 @@ export default function SignInPage() {
               placeholder={t("emailPlaceholder")}
               required
               disabled={isLoading}
+              data-testid="email-input"
             />
           </div>
 
@@ -141,10 +150,16 @@ export default function SignInPage() {
               placeholder={t("passwordPlaceholder")}
               required
               disabled={isLoading}
+              data-testid="password-input"
             />
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isLoading}
+            data-testid="signin-submit"
+          >
             {isLoading ? t("signingIn") : t("signIn")}
           </Button>
         </form>
