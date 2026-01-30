@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Badge } from "./badge";
 
 describe("Badge", () => {
@@ -314,7 +315,8 @@ describe("Badge", () => {
       expect(badge).toBeInTheDocument();
     });
 
-    it("is keyboard accessible when used as button", () => {
+    it("is keyboard accessible when used as button", async () => {
+      const user = userEvent.setup();
       render(
         <Badge asChild>
           <button type="button">Clickable</button>
@@ -322,7 +324,7 @@ describe("Badge", () => {
       );
 
       const badge = screen.getByRole("button");
-      badge.focus();
+      await user.tab(); // Focus the button
       expect(badge).toHaveFocus();
     });
 
@@ -335,7 +337,8 @@ describe("Badge", () => {
   });
 
   describe("Event Handlers", () => {
-    it("handles onClick when used as button", () => {
+    it("handles onClick when used as button", async () => {
+      const user = userEvent.setup();
       const handleClick = jest.fn();
 
       render(
@@ -347,12 +350,13 @@ describe("Badge", () => {
       );
 
       const badge = screen.getByRole("button");
-      badge.click();
+      await user.click(badge);
 
       expect(handleClick).toHaveBeenCalledTimes(1);
     });
 
-    it("handles onClick on span with tabIndex", () => {
+    it("handles onClick on span with tabIndex", async () => {
+      const user = userEvent.setup();
       const handleClick = jest.fn();
 
       render(
@@ -362,12 +366,13 @@ describe("Badge", () => {
       );
 
       const badge = screen.getByText("Clickable Badge");
-      badge.click();
+      await user.click(badge);
 
       expect(handleClick).toHaveBeenCalledTimes(1);
     });
 
-    it("handles onMouseEnter and onMouseLeave", () => {
+    it("handles onMouseEnter and onMouseLeave", async () => {
+      const user = userEvent.setup();
       const handleMouseEnter = jest.fn();
       const handleMouseLeave = jest.fn();
 
@@ -379,11 +384,10 @@ describe("Badge", () => {
 
       const badge = screen.getByText("Hover me");
 
-      // Trigger mouse events using fireEvent
-      fireEvent.mouseEnter(badge);
+      await user.hover(badge);
       expect(handleMouseEnter).toHaveBeenCalledTimes(1);
 
-      fireEvent.mouseLeave(badge);
+      await user.unhover(badge);
       expect(handleMouseLeave).toHaveBeenCalledTimes(1);
     });
   });
