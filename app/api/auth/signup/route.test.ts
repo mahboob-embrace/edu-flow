@@ -134,7 +134,9 @@ describe("POST /api/auth/signup", () => {
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.error).toBeDefined();
+      expect(data.error).toBe(
+        'Invalid key: Expected "name" but received undefined',
+      );
     });
 
     it("returns 400 when name is empty", async () => {
@@ -155,7 +157,9 @@ describe("POST /api/auth/signup", () => {
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.error).toBeDefined();
+      expect(data.error).toBe(
+        'Invalid key: Expected "email" but received undefined',
+      );
     });
 
     it("returns 400 when email is invalid", async () => {
@@ -178,7 +182,9 @@ describe("POST /api/auth/signup", () => {
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.error).toBeDefined();
+      expect(data.error).toBe(
+        'Invalid key: Expected "password" but received undefined',
+      );
     });
   });
 
