@@ -16,7 +16,6 @@ jest.mock("next-intl", () => ({
 
 // Mock next/navigation
 const mockPush = jest.fn();
-
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
     push: mockPush,
@@ -49,10 +48,19 @@ jest.mock("next/link", () => {
   return MockLink;
 });
 
+// Mock navigation utility
+const mockHardNavigate = jest.fn();
+jest.mock("@/lib/navigation", () => ({
+  hardNavigate: (url: string) => mockHardNavigate(url),
+}));
 describe("SignInPage", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it("renders correctly", () => {
@@ -97,13 +105,20 @@ describe("SignInPage", () => {
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
         "/api/auth/signin",
-        expect.any(Object),
+        expect.objectContaining({
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: "test@example.com",
+            password: "password123",
+          }),
+        }),
       );
     });
 
-    // Wait for redirect via router
+    // Wait for redirect via hardNavigate
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/dashboard");
+      expect(mockHardNavigate).toHaveBeenCalledWith("/dashboard");
     });
   });
 
@@ -199,9 +214,9 @@ describe("SignInPage", () => {
       json: async () => ({ user: {} }),
     } as unknown as Response);
 
-    // Wait for redirect via router
+    // Wait for redirect via hardNavigate
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/dashboard");
+      expect(mockHardNavigate).toHaveBeenCalledWith("/dashboard");
     });
   });
 

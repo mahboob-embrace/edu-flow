@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { hardNavigate } from "@/lib/navigation";
 import {
   Button,
   Input,
@@ -20,7 +20,6 @@ import {
 
 export default function SignInPage() {
   const t = useTranslations("auth");
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,7 +45,8 @@ export default function SignInPage() {
         setError(data.error || t("invalidCredentials"));
         return;
       }
-      window.location.assign("/dashboard");
+      // Use hardNavigate for full page reload to ensure cookies are picked up
+      hardNavigate("/dashboard");
     } catch {
       setError(t("somethingWentWrong"));
     } finally {
