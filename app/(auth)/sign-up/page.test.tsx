@@ -182,7 +182,7 @@ describe("SignUpPage", () => {
       await user.type(screen.getByTestId("name-input"), "Test User");
       await user.type(screen.getByTestId("email-input"), "test@example.com");
       // Leave password fields empty
-
+      await user.click(screen.getByTestId("signup-submit"));
       // The form has required validation, so it won't submit
       // Just check that fetch is not called
       expect(global.fetch).not.toHaveBeenCalled();
