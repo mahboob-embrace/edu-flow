@@ -14,47 +14,29 @@ describe("SocialLoginButtons", () => {
   });
 
   describe("Rendering", () => {
-    it("renders both Google and Facebook buttons", () => {
-      render(<SocialLoginButtons />);
-
-      expect(screen.getByTestId("social-login-buttons")).toBeInTheDocument();
-      expect(screen.getByTestId("google-social")).toBeInTheDocument();
-      expect(screen.getByTestId("facebook-social")).toBeInTheDocument();
-    });
-
-    it("renders Google button with correct text", () => {
-      render(<SocialLoginButtons />);
-
-      expect(screen.getByTestId("google-social")).toHaveTextContent("Google");
-    });
-
-    it("renders Facebook button with correct text", () => {
-      render(<SocialLoginButtons />);
-
-      expect(screen.getByTestId("facebook-social")).toHaveTextContent(
-        "Facebook",
-      );
-    });
-
-    it("renders buttons in a two-column grid layout", () => {
+    it("renders Google and Facebook buttons with correct text and layout", () => {
       render(<SocialLoginButtons />);
 
       const container = screen.getByTestId("social-login-buttons");
+      expect(container).toBeInTheDocument();
       expect(container).toHaveClass("grid", "grid-cols-2", "gap-4");
+
+      const googleButton = screen.getByTestId("google-social");
+      expect(googleButton).toBeInTheDocument();
+      expect(googleButton).toHaveTextContent("Google");
+
+      const facebookButton = screen.getByTestId("facebook-social");
+      expect(facebookButton).toBeInTheDocument();
+      expect(facebookButton).toHaveTextContent("Facebook");
     });
   });
 
   describe("Custom testIdPrefix", () => {
-    it("applies custom testIdPrefix to Google button", () => {
-      render(<SocialLoginButtons testIdPrefix="signin" />);
+    it("applies custom testIdPrefix to both buttons", () => {
+      render(<SocialLoginButtons testIdPrefix="custom" />);
 
-      expect(screen.getByTestId("google-signin")).toBeInTheDocument();
-    });
-
-    it("applies custom testIdPrefix to Facebook button", () => {
-      render(<SocialLoginButtons testIdPrefix="signup" />);
-
-      expect(screen.getByTestId("facebook-signup")).toBeInTheDocument();
+      expect(screen.getByTestId("google-custom")).toBeInTheDocument();
+      expect(screen.getByTestId("facebook-custom")).toBeInTheDocument();
     });
 
     it("uses default testIdPrefix when not provided", () => {
@@ -132,48 +114,25 @@ describe("SocialLoginButtons", () => {
   });
 
   describe("Disabled State", () => {
-    it("disables Google button when disabled prop is true", () => {
+    it("disables both buttons when disabled prop is true", () => {
       render(<SocialLoginButtons disabled={true} />);
 
       expect(screen.getByTestId("google-social")).toBeDisabled();
-    });
-
-    it("disables Facebook button when disabled prop is true", () => {
-      render(<SocialLoginButtons disabled={true} />);
-
       expect(screen.getByTestId("facebook-social")).toBeDisabled();
     });
 
-    it("does not call signIn when Google button is disabled and clicked", async () => {
+    it("does not call signIn when disabled buttons are clicked", async () => {
       const user = userEvent.setup();
       render(<SocialLoginButtons disabled={true} />);
 
-      // Attempt to click the disabled button
-      const googleButton = screen.getByTestId("google-social");
-      await user.click(googleButton);
+      // user-event will not fire click events on disabled elements
+      await user.click(screen.getByTestId("google-social"));
+      await user.click(screen.getByTestId("facebook-social"));
 
       expect(signIn).not.toHaveBeenCalled();
     });
 
-    it("does not call signIn when Facebook button is disabled and clicked", async () => {
-      const user = userEvent.setup();
-      render(<SocialLoginButtons disabled={true} />);
-
-      // Attempt to click the disabled button
-      const facebookButton = screen.getByTestId("facebook-social");
-      await user.click(facebookButton);
-
-      expect(signIn).not.toHaveBeenCalled();
-    });
-
-    it("enables buttons when disabled prop is false", () => {
-      render(<SocialLoginButtons disabled={false} />);
-
-      expect(screen.getByTestId("google-social")).not.toBeDisabled();
-      expect(screen.getByTestId("facebook-social")).not.toBeDisabled();
-    });
-
-    it("enables buttons by default when disabled prop is not provided", () => {
+    it("enables buttons by default", () => {
       render(<SocialLoginButtons />);
 
       expect(screen.getByTestId("google-social")).not.toBeDisabled();
@@ -248,31 +207,14 @@ describe("SocialLoginButtons", () => {
   });
 
   describe("SVG Icons", () => {
-    it("renders Google icon within the Google button", () => {
+    it("renders SVG icons within both buttons", () => {
       render(<SocialLoginButtons />);
 
       const googleButton = screen.getByTestId("google-social");
-      const svgIcon = googleButton.querySelector("svg");
-      expect(svgIcon).toBeInTheDocument();
-    });
-
-    it("renders Facebook icon within the Facebook button", () => {
-      render(<SocialLoginButtons />);
-
       const facebookButton = screen.getByTestId("facebook-social");
-      const svgIcon = facebookButton.querySelector("svg");
-      expect(svgIcon).toBeInTheDocument();
-    });
-  });
 
-  describe("Button Styling", () => {
-    it("renders buttons with outline variant", () => {
-      render(<SocialLoginButtons />);
-
-      // The Button component applies variant classes
-      // We check that the buttons are rendered (styling is handled by the Button component)
-      expect(screen.getByTestId("google-social")).toBeInTheDocument();
-      expect(screen.getByTestId("facebook-social")).toBeInTheDocument();
+      expect(googleButton.querySelector("svg")).toBeInTheDocument();
+      expect(facebookButton.querySelector("svg")).toBeInTheDocument();
     });
   });
 });
