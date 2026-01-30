@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 describe("Button", () => {
   describe("variants", () => {
     it("renders with default variant", () => {
-      render(<Button>Click me</Button>);
-      const button = screen.getByRole("button", { name: /click me/i });
+      render(<Button data-testid="button">Click me</Button>);
+      const button = screen.getByTestId("button");
       expect(button).toBeInTheDocument();
       expect(button).toHaveAttribute("data-variant", "default");
     });
@@ -136,8 +136,12 @@ describe("Button", () => {
     });
 
     it("renders as disabled when disabled prop is passed", () => {
-      render(<Button disabled>Disabled</Button>);
-      const button = screen.getByRole("button", { name: /disabled/i });
+      render(
+        <Button data-testid="disabled-btn" disabled>
+          Disabled
+        </Button>,
+      );
+      const button = screen.getByTestId("disabled-btn");
       expect(button).toBeDisabled();
     });
 
