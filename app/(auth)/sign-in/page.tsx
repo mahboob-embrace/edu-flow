@@ -47,7 +47,7 @@ export default function SignInPage() {
         return;
       }
 
-      router.refresh();
+      window.location.href = "/dashboard";
     } catch {
       setError(t("somethingWentWrong"));
     } finally {
