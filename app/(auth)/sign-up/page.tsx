@@ -65,7 +65,7 @@ export default function SignUpPage() {
         setError(t("accountCreatedSignInFailed"));
         router.push("/sign-in");
       } else {
-        router.refresh();
+        window.location.href = "/dashboard";
       }
     } catch {
       setError(t("somethingWentWrong"));
