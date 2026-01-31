@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { compare } from "bcryptjs";
 import crypto from "crypto";
-import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
@@ -128,16 +127,7 @@ export async function POST(request: Request) {
       },
     });
 
-    const cookieStore = await cookies();
-    cookieStore.set("authjs.session-token", sessionToken, {
-      expires: sessionExpiry,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-    });
-
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         user: {
           id: user.id,
@@ -147,6 +137,16 @@ export async function POST(request: Request) {
       },
       { status: 200 },
     );
+
+    response.cookies.set("authjs.session-token", sessionToken, {
+      expires: sessionExpiry,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Sign in error:", error);
     return NextResponse.json(

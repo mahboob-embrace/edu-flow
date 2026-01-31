@@ -81,9 +81,11 @@ export function rateLimit(
 }
 
 /**
- * Get client IP from request headers
+ * Get client IP from request headers.
+ * Returns null in production if no IP can be determined (security measure).
+ * Returns 127.0.0.1 in development for local testing convenience.
  */
-export function getClientIp(request: Request): string {
+export function getClientIp(request: Request): string | null {
   const forwardedFor = request.headers.get("x-forwarded-for");
   if (forwardedFor) {
     return forwardedFor.split(",")[0].trim();
@@ -94,5 +96,11 @@ export function getClientIp(request: Request): string {
     return realIp;
   }
 
-  return "127.0.0.1";
+  // Only return localhost IP in development/test environments
+  // In production, return null to prevent unrelated users from sharing rate limit buckets
+  if (process.env.NODE_ENV !== "production") {
+    return "127.0.0.1";
+  }
+
+  return null;
 }
