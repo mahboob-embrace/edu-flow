@@ -102,10 +102,12 @@ const preview: Preview = {
     },
   },
   decorators: [
-    // Theme decorator using next-themes
+    // Unified decorator for setting up global context (Theme, Color Theme, and Locale)
     (Story, context) => {
       const theme = context.globals.theme || "light";
       const colorTheme = context.globals.colorTheme || "default";
+      const locale = (context.globals.locale || "en") as Locale;
+
       return (
         <ThemeProvider
           attribute="class"
@@ -116,19 +118,10 @@ const preview: Preview = {
           <ColorThemeProvider defaultTheme={colorTheme}>
             <ThemeSync theme={theme} />
             <ColorThemeSync theme={colorTheme} />
+            <LocaleSync locale={locale} />
             <Story />
           </ColorThemeProvider>
         </ThemeProvider>
-      );
-    },
-    // Locale decorator - sets dir attribute for RTL support
-    (Story, context) => {
-      const locale = (context.globals.locale || "en") as Locale;
-      return (
-        <>
-          <LocaleSync locale={locale} />
-          <Story />
-        </>
       );
     },
   ],
