@@ -58,24 +58,20 @@ export const OpenMenu: Story = {
   args: {
     currentLocale: "en",
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const trigger = canvas.getByTestId("locale-switcher-trigger");
-
     // Open the dropdown
     await userEvent.click(trigger);
-
     // Verify all locale options are visible
     for (const locale of locales) {
       await within(document.body).findByTestId(`locale-option-${locale}`);
     }
-
-    const englishOption = await within(document.body).findByTestId(
-      "locale-option-en",
+    const currentLocaleOption = await within(document.body).findByTestId(
+      `locale-option-${args.currentLocale}`,
     );
-
     // Verify current locale is highlighted
-    await expect(englishOption).toHaveClass("bg-accent");
+    await expect(currentLocaleOption).toHaveClass("bg-accent");
   },
 };
 
