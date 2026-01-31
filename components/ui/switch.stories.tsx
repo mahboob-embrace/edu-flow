@@ -15,9 +15,6 @@ const meta = {
     disabled: {
       control: "boolean",
     },
-    checked: {
-      control: "boolean",
-    },
   },
   args: {
     onCheckedChange: fn(),

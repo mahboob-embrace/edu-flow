@@ -59,22 +59,22 @@ export const Default: Story = {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <User />
-          <span>Profile</span>
+          Profile
           <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <CreditCard />
-          <span>Billing</span>
+          Billing
           <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Settings />
-          <span>Settings</span>
+          Settings
           <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Keyboard />
-          <span>Keyboard shortcuts</span>
+          Keyboard shortcuts
           <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -95,48 +95,42 @@ export const Default: Story = {
 
 // With Checkboxes
 export const WithCheckboxes: Story = {
-  render: function Render() {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline">View Options</Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuCheckboxItem checked>
-            Show Status Bar
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem>Show Activity Bar</DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem checked>
-            Show Panel
-          </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  },
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">View Options</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuCheckboxItem checked>
+          Show Status Bar
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem>Show Activity Bar</DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem checked>Show Panel</DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
 };
 
 // With Radio Group
 export const WithRadioGroup: Story = {
-  render: function Render() {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline">Select Position</Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup value="bottom">
-            <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  },
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Select Position</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup value="bottom">
+          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
 };
 
 // With Submenus
@@ -150,62 +144,62 @@ export const WithSubmenus: Story = {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User />
-            <span>Profile</span>
+            Profile
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Settings />
-            <span>Settings</span>
+            Settings
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <Users />
-            <span>Team</span>
+            Team
           </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <UserPlus />
-              <span>Invite users</span>
+              Invite users
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
               <DropdownMenuItem>
                 <Mail />
-                <span>Email</span>
+                Email
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <MessageSquare />
-                <span>Message</span>
+                Message
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <PlusCircle />
-                <span>More...</span>
+                More...
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuSub>
           <DropdownMenuItem>
             <Plus />
-            <span>New Team</span>
+            New Team
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Github />
-          <span>GitHub</span>
+          GitHub
         </DropdownMenuItem>
         <DropdownMenuItem>
           <LifeBuoy />
-          <span>Support</span>
+          Support
         </DropdownMenuItem>
         <DropdownMenuItem disabled>
           <Cloud />
-          <span>API</span>
+          API
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive">
           <LogOut />
-          <span>Log out</span>
+          Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
