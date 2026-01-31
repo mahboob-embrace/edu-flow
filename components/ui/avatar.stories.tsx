@@ -25,7 +25,8 @@ export const Default: Story = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const avatar = canvas.getByRole("img", { name: "@shadcn" });
+    // Use findByRole because images load asynchronously
+    const avatar = await canvas.findByRole("img", { name: "@shadcn" });
     await expect(avatar).toBeInTheDocument();
   },
 };
@@ -38,6 +39,12 @@ export const WithFallback: Story = {
       <AvatarFallback>JD</AvatarFallback>
     </Avatar>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Verify fallback is shown when image is broken
+    const fallback = canvas.getByText("JD");
+    await expect(fallback).toBeInTheDocument();
+  },
 };
 
 // Different initials
@@ -55,6 +62,12 @@ export const Initials: Story = {
       </Avatar>
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("AB")).toBeInTheDocument();
+    await expect(canvas.getByText("CD")).toBeInTheDocument();
+    await expect(canvas.getByText("EF")).toBeInTheDocument();
+  },
 };
 
 // Custom sizes

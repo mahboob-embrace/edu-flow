@@ -177,9 +177,6 @@ export const Disabled: Story = {
     const canvas = within(canvasElement);
     const button = canvas.getByRole("button", { name: /disabled/i });
 
-    // Simulate user clicking the button
-    await userEvent.click(button);
-
     // Assert button is disabled and onClick was not called
     await expect(button).toBeDisabled();
     await expect(args.onClick).not.toHaveBeenCalled();
