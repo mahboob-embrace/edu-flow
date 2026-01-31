@@ -116,7 +116,8 @@ describe("POST /api/auth/signin", () => {
         email: "test@example.com",
         password: "password123",
       });
-      const response = await POST(request);
+
+      await POST(request);
 
       // Should proceed past rate limiting (will fail for other reasons)
       expect(rateLimit).toHaveBeenCalledWith("signin:127.0.0.1", {
