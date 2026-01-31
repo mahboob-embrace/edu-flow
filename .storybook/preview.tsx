@@ -10,6 +10,12 @@ import {
   colorThemes,
   ColorTheme,
 } from "../components/theme/color-theme-provider";
+import {
+  locales,
+  localeNames,
+  localeDirection,
+  type Locale,
+} from "../i18n/config";
 
 // Helper to sync Storybook global theme with next-themes
 const ThemeSync = ({ theme }: { theme: string }) => {
@@ -76,11 +82,11 @@ const preview: Preview = {
       defaultValue: "en",
       toolbar: {
         icon: "globe",
-        items: [
-          { value: "en", title: "English", right: "LTR" },
-          { value: "da", title: "Dansk", right: "LTR" },
-          { value: "ar", title: "العربية", right: "RTL" },
-        ],
+        items: locales.map((locale) => ({
+          value: locale,
+          title: localeNames[locale],
+          right: localeDirection[locale].toUpperCase(),
+        })),
         dynamicTitle: true,
       },
     },
@@ -107,8 +113,8 @@ const preview: Preview = {
     },
     // Locale decorator - sets dir attribute for RTL support
     (Story, context) => {
-      const locale = context.globals.locale || "en";
-      const dir = locale === "ar" ? "rtl" : "ltr";
+      const locale = (context.globals.locale || "en") as Locale;
+      const dir = localeDirection[locale];
 
       useEffect(() => {
         document.documentElement.dir = dir;
