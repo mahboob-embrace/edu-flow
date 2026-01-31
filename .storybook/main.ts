@@ -11,11 +11,9 @@ const config: StorybookConfig = {
     "../components/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
   addons: [
-    "@chromatic-com/storybook",
-    "@storybook/addon-vitest",
-    "@storybook/addon-a11y",
     "@storybook/addon-docs",
-    "@storybook/addon-onboarding",
+    "@storybook/addon-vitest",
+    "@storybook/addon-a11y"
   ],
   framework: "@storybook/nextjs-vite",
   staticDirs: ["../public"],
@@ -29,4 +27,5 @@ const config: StorybookConfig = {
     return config;
   },
 };
+
 export default config;

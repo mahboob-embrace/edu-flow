@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { fn } from "storybook/test";
+import { expect, fn, userEvent, within } from "storybook/test";
 import { Mail } from "lucide-react";
 
 import { Button } from "./button";
@@ -46,6 +46,16 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     children: "Button",
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole("button", { name: /button/i });
+
+    // Simulate user clicking the button
+    await userEvent.click(button);
+
+    // Assert onClick was called
+    await expect(args.onClick).toHaveBeenCalledOnce();
   },
 };
 
@@ -162,6 +172,17 @@ export const Disabled: Story = {
   args: {
     disabled: true,
     children: "Disabled",
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole("button", { name: /disabled/i });
+
+    // Simulate user clicking the button
+    await userEvent.click(button);
+
+    // Assert button is disabled and onClick was not called
+    await expect(button).toBeDisabled();
+    await expect(args.onClick).not.toHaveBeenCalled();
   },
 };
 
