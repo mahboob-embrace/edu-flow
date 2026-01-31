@@ -8,6 +8,7 @@ import {
   ColorThemeProvider,
   useColorTheme,
   colorThemes,
+  ColorTheme,
 } from "../components/theme/color-theme-provider";
 
 // Helper to sync Storybook global theme with next-themes
@@ -20,7 +21,7 @@ const ThemeSync = ({ theme }: { theme: string }) => {
 };
 
 // Helper to sync Storybook global color theme with ColorThemeProvider
-const ColorThemeSync = ({ theme }: { theme: any }) => {
+const ColorThemeSync = ({ theme }: { theme: ColorTheme }) => {
   const { setColorTheme } = useColorTheme();
   useEffect(() => {
     setColorTheme(theme);
