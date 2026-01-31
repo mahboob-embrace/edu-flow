@@ -118,24 +118,28 @@ export const AllTypes: Story = {
   render: () => (
     <div className="flex flex-col gap-4 w-[300px]">
       <div className="space-y-1.5">
-        <Label>Text</Label>
-        <Input type="text" placeholder="Text input" />
+        <Label htmlFor="text-input">Text</Label>
+        <Input id="text-input" type="text" placeholder="Text input" />
       </div>
       <div className="space-y-1.5">
-        <Label>Email</Label>
-        <Input type="email" placeholder="Email input" />
+        <Label htmlFor="email-input">Email</Label>
+        <Input id="email-input" type="email" placeholder="Email input" />
       </div>
       <div className="space-y-1.5">
-        <Label>Password</Label>
-        <Input type="password" placeholder="Password input" />
+        <Label htmlFor="password-input">Password</Label>
+        <Input
+          id="password-input"
+          type="password"
+          placeholder="Password input"
+        />
       </div>
       <div className="space-y-1.5">
-        <Label>Number</Label>
-        <Input type="number" placeholder="0" />
+        <Label htmlFor="number-input">Number</Label>
+        <Input id="number-input" type="number" placeholder="0" />
       </div>
       <div className="space-y-1.5">
-        <Label>Disabled</Label>
-        <Input disabled placeholder="Disabled" />
+        <Label htmlFor="disabled-input">Disabled</Label>
+        <Input id="disabled-input" disabled placeholder="Disabled" />
       </div>
     </div>
   ),

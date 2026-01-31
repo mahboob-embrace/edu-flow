@@ -82,32 +82,39 @@ export const FormExample: Story = {
     <div className="space-y-4 w-[300px]">
       <div className="flex items-center justify-between rounded-lg border p-4">
         <div className="space-y-0.5">
-          <Label className="text-base">Marketing emails</Label>
+          <Label htmlFor="marketing-emails" className="text-base">
+            Marketing emails
+          </Label>
           <p className="text-sm text-muted-foreground">
             Receive emails about new products, features, and more.
           </p>
         </div>
-        <Switch />
+        <Switch id="marketing-emails" />
       </div>
       <div className="flex items-center justify-between rounded-lg border p-4">
         <div className="space-y-0.5">
-          <Label className="text-base">Security emails</Label>
+          <Label htmlFor="security-emails" className="text-base">
+            Security emails
+          </Label>
           <p className="text-sm text-muted-foreground">
             Receive emails about your account security.
           </p>
         </div>
-        <Switch defaultChecked />
+        <Switch id="security-emails" defaultChecked />
       </div>
       <div className="flex items-center justify-between rounded-lg border p-4">
         <div className="space-y-0.5">
-          <Label className="text-base text-muted-foreground">
+          <Label
+            htmlFor="disabled-option"
+            className="text-base text-muted-foreground"
+          >
             Disabled option
           </Label>
           <p className="text-sm text-muted-foreground">
             This option is currently unavailable.
           </p>
         </div>
-        <Switch disabled />
+        <Switch id="disabled-option" disabled />
       </div>
     </div>
   ),
@@ -118,20 +125,24 @@ export const AllStates: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       <div className="flex items-center space-x-2">
-        <Switch />
-        <Label>Unchecked</Label>
+        <Switch id="unchecked" />
+        <Label htmlFor="unchecked">Unchecked</Label>
       </div>
       <div className="flex items-center space-x-2">
-        <Switch defaultChecked />
-        <Label>Checked</Label>
+        <Switch id="checked" defaultChecked />
+        <Label htmlFor="checked">Checked</Label>
       </div>
       <div className="flex items-center space-x-2">
-        <Switch disabled />
-        <Label className="text-muted-foreground">Disabled Unchecked</Label>
+        <Switch id="disabled-unchecked" disabled />
+        <Label htmlFor="disabled-unchecked" className="text-muted-foreground">
+          Disabled Unchecked
+        </Label>
       </div>
       <div className="flex items-center space-x-2">
-        <Switch disabled defaultChecked />
-        <Label className="text-muted-foreground">Disabled Checked</Label>
+        <Switch id="disabled-checked" disabled defaultChecked />
+        <Label htmlFor="disabled-checked" className="text-muted-foreground">
+          Disabled Checked
+        </Label>
       </div>
     </div>
   ),

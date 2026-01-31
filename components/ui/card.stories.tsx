@@ -11,6 +11,8 @@ import {
   CardAction,
 } from "./card";
 import { Button } from "./button";
+import { Input } from "./input";
+import { Label } from "./label";
 
 const meta = {
   title: "UI/Card",
@@ -90,19 +92,12 @@ export const WithForm: Story = {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Email</label>
-          <input
-            type="email"
-            placeholder="m@example.com"
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
-          />
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" type="email" placeholder="m@example.com" />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Password</label>
-          <input
-            type="password"
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
-          />
+          <Label htmlFor="password">Password</Label>
+          <Input id="password" type="password" />
         </div>
       </CardContent>
       <CardFooter className="flex justify-between">
