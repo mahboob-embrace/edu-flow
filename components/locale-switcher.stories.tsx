@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, within } from "storybook/test";
 
 import { LocaleSwitcher } from "./locale-switcher";
+import { locales } from "@/i18n/config";
 
 const meta = {
   title: "Components/LocaleSwitcher",
@@ -22,7 +23,7 @@ const meta = {
   argTypes: {
     currentLocale: {
       control: "select",
-      options: ["en", "da", "ar"],
+      options: locales,
       description: "The currently active locale",
     },
   },
