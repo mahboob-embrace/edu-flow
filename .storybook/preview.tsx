@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import type { Preview } from "@storybook/nextjs-vite";
 import { useTheme } from "next-themes";
 import "../app/globals.css";
@@ -20,18 +20,40 @@ import {
 // Helper to sync Storybook global theme with next-themes
 const ThemeSync = ({ theme }: { theme: string }) => {
   const { setTheme } = useTheme();
+  const prevTheme = useRef(theme);
+
+  useEffect(() => {
+    if (prevTheme.current !== theme) {
+      setTheme(theme);
+      prevTheme.current = theme;
+    }
+  }, [theme, setTheme]);
+
+  // Initial sync on mount
   useEffect(() => {
     setTheme(theme);
-  }, [theme, setTheme]);
+  }, []);
+
   return null;
 };
 
 // Helper to sync Storybook global color theme with ColorThemeProvider
 const ColorThemeSync = ({ theme }: { theme: ColorTheme }) => {
   const { setColorTheme } = useColorTheme();
+  const prevTheme = useRef(theme);
+
+  useEffect(() => {
+    if (prevTheme.current !== theme) {
+      setColorTheme(theme);
+      prevTheme.current = theme;
+    }
+  }, [theme, setColorTheme]);
+
+  // Initial sync on mount
   useEffect(() => {
     setColorTheme(theme);
-  }, [theme, setColorTheme]);
+  }, []);
+
   return null;
 };
 
