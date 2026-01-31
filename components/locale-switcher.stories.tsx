@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, within } from "storybook/test";
 
 import { LocaleSwitcher } from "./locale-switcher";
-import { locales } from "@/i18n/config";
+import { locales, localeNames } from "@/i18n/config";
 
 const meta = {
   title: "Components/LocaleSwitcher",
@@ -81,18 +81,14 @@ export const OpenMenu: Story = {
 export const AllLocales: Story = {
   render: () => (
     <div className="flex gap-4">
-      <div className="flex flex-col items-center gap-2">
-        <span className="text-sm text-muted-foreground">English</span>
-        <LocaleSwitcher currentLocale="en" />
-      </div>
-      <div className="flex flex-col items-center gap-2">
-        <span className="text-sm text-muted-foreground">Dansk</span>
-        <LocaleSwitcher currentLocale="da" />
-      </div>
-      <div className="flex flex-col items-center gap-2">
-        <span className="text-sm text-muted-foreground">العربية</span>
-        <LocaleSwitcher currentLocale="ar" />
-      </div>
+      {locales.map((locale) => (
+        <div key={locale} className="flex flex-col items-center gap-2">
+          <span className="text-sm text-muted-foreground">
+            {localeNames[locale]}
+          </span>
+          <LocaleSwitcher currentLocale={locale} />
+        </div>
+      ))}
     </div>
   ),
 };
