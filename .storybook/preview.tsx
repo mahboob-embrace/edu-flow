@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { Preview } from "@storybook/nextjs-vite";
 import { useTheme } from "next-themes";
 import "../app/globals.css";
@@ -21,18 +21,15 @@ import {
 const ThemeSync = ({ theme }: { theme: string }) => {
   const { setTheme } = useTheme();
   const prevTheme = useRef(theme);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if (prevTheme.current !== theme) {
+    if (isFirstRender.current || prevTheme.current !== theme) {
       setTheme(theme);
       prevTheme.current = theme;
+      isFirstRender.current = false;
     }
   }, [theme, setTheme]);
-
-  // Initial sync on mount
-  useEffect(() => {
-    setTheme(theme);
-  }, []);
 
   return null;
 };
@@ -41,18 +38,15 @@ const ThemeSync = ({ theme }: { theme: string }) => {
 const ColorThemeSync = ({ theme }: { theme: ColorTheme }) => {
   const { setColorTheme } = useColorTheme();
   const prevTheme = useRef(theme);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if (prevTheme.current !== theme) {
+    if (isFirstRender.current || prevTheme.current !== theme) {
       setColorTheme(theme);
       prevTheme.current = theme;
+      isFirstRender.current = false;
     }
   }, [theme, setColorTheme]);
-
-  // Initial sync on mount
-  useEffect(() => {
-    setColorTheme(theme);
-  }, []);
 
   return null;
 };
