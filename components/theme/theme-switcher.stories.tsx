@@ -57,6 +57,11 @@ export const SelectLightMode: Story = {
     );
     await userEvent.click(lightOption);
 
+    // Wait for menu to fully close
+    await waitFor(() => {
+      expect(document.body.querySelector('[role="menu"]')).toBeNull();
+    });
+
     // Re-open menu to verify selection
     await userEvent.click(trigger);
 
@@ -83,6 +88,11 @@ export const SelectDarkMode: Story = {
       "theme-mode-dark",
     );
     await userEvent.click(darkOption);
+
+    // Wait for menu to fully close
+    await waitFor(() => {
+      expect(document.body.querySelector('[role="menu"]')).toBeNull();
+    });
 
     // Re-open menu to verify selection
     await userEvent.click(trigger);
