@@ -22,6 +22,8 @@ const config: StorybookConfig = {
       config.resolve.alias = {
         ...config.resolve.alias,
         "@": path.resolve(__dirname, "../"),
+        // Mock server actions for Storybook
+        "@/i18n/actions": path.resolve(__dirname, "../i18n/actions.mock.ts"),
       };
     }
     return config;

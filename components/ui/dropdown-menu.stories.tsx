@@ -36,7 +36,7 @@ import {
 import { Button } from "./button";
 
 const meta = {
-  title: "UI/DropdownMenu",
+  title: "Components/UI/DropdownMenu",
   component: DropdownMenu,
   parameters: {
     layout: "centered",

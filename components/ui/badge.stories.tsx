@@ -5,7 +5,7 @@ import { Check, X } from "lucide-react";
 import { Badge } from "./badge";
 
 const meta = {
-  title: "UI/Badge",
+  title: "Components/UI/Badge",
   component: Badge,
   parameters: {
     layout: "centered",

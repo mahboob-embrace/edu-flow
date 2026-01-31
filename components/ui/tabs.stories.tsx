@@ -15,7 +15,7 @@ import { Input } from "./input";
 import { Label } from "./label";
 
 const meta = {
-  title: "UI/Tabs",
+  title: "Components/UI/Tabs",
   component: Tabs,
   parameters: {
     layout: "centered",
