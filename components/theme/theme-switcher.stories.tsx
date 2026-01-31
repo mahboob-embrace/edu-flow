@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent, within, waitFor } from "storybook/test";
 
 import { ThemeSwitcher } from "./theme-switcher";
 import { colorThemes } from "./color-theme-provider";
@@ -59,13 +59,15 @@ export const SelectLightMode: Story = {
 
     // Re-open menu to verify selection
     await userEvent.click(trigger);
-    const lightOptionAfter = await within(document.body).findByTestId(
-      "theme-mode-light",
-    );
 
-    // Check icon should be present (2 SVGs: Sun icon + Check icon)
-    const icons = lightOptionAfter.querySelectorAll("svg");
-    await expect(icons.length).toBeGreaterThan(1);
+    // Wait for the theme to update and the check icon to be visible
+    await waitFor(async () => {
+      const lightOptionAfter = await within(document.body).findByTestId(
+        "theme-mode-light",
+      );
+      const icons = lightOptionAfter.querySelectorAll("svg");
+      expect(icons.length).toBeGreaterThan(1);
+    });
   },
 };
 
@@ -82,15 +84,17 @@ export const SelectDarkMode: Story = {
     );
     await userEvent.click(darkOption);
 
-    // Re-open menu to verify dark option is still accessible
+    // Re-open menu to verify selection
     await userEvent.click(trigger);
-    const darkOptionAfter = await within(document.body).findByTestId(
-      "theme-mode-dark",
-    );
 
-    // Check icon should be present (2 SVGs: Moon icon + Check icon)
-    const icons = darkOptionAfter.querySelectorAll("svg");
-    await expect(icons.length).toBeGreaterThan(1);
+    // Wait for the theme to update and the check icon to be visible
+    await waitFor(async () => {
+      const darkOptionAfter = await within(document.body).findByTestId(
+        "theme-mode-dark",
+      );
+      const icons = darkOptionAfter.querySelectorAll("svg");
+      expect(icons.length).toBeGreaterThan(1);
+    });
   },
 };
 
