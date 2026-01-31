@@ -127,26 +127,12 @@ describe("POST /api/auth/signin", () => {
   });
 
   describe("Request Validation", () => {
-    it("returns 400 when email is missing", async () => {
-      const request = createRequest({ password: "password123" });
-      const response = await POST(request);
-      const data = await response.json();
-
-      expect(response.status).toBe(400);
-      expect(data.error).toBe("Email and password are required");
-    });
-
-    it("returns 400 when password is missing", async () => {
-      const request = createRequest({ email: "test@example.com" });
-      const response = await POST(request);
-      const data = await response.json();
-
-      expect(response.status).toBe(400);
-      expect(data.error).toBe("Email and password are required");
-    });
-
-    it("returns 400 when both email and password are missing", async () => {
-      const request = createRequest({});
+    it.each([
+      { body: { password: "password123" }, case: "email is missing" },
+      { body: { email: "test@example.com" }, case: "password is missing" },
+      { body: {}, case: "both email and password are missing" },
+    ])("returns 400 when $case", async ({ body }) => {
+      const request = createRequest(body);
       const response = await POST(request);
       const data = await response.json();
 

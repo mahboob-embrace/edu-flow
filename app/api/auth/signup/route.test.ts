@@ -183,66 +183,38 @@ describe("POST /api/auth/signup", () => {
   });
 
   describe("Password Complexity Validation", () => {
-    it("returns 400 when password is too short", async () => {
-      const request = createRequest(
-        createValidSignupData({ password: "Pass1!" }),
-      );
-      const response = await POST(request);
-      const data = await response.json();
+    it.each([
+      {
+        password: "Pass1!",
+        error: "Password must be at least 8 characters",
+      },
+      {
+        password: "password123!",
+        error: "Password must contain at least one uppercase letter",
+      },
+      {
+        password: "PASSWORD123!",
+        error: "Password must contain at least one lowercase letter",
+      },
+      {
+        password: "Password!!",
+        error: "Password must contain at least one number",
+      },
+      {
+        password: "Password123",
+        error: "Password must contain at least one special character",
+      },
+    ])(
+      "returns 400 for invalid password ($password) because: $error",
+      async ({ password, error }) => {
+        const request = createRequest(createValidSignupData({ password }));
+        const response = await POST(request);
+        const data = await response.json();
 
-      expect(response.status).toBe(400);
-      expect(data.error).toBe("Password must be at least 8 characters");
-    });
-
-    it("returns 400 when password has no uppercase letter", async () => {
-      const request = createRequest(
-        createValidSignupData({ password: "password123!" }),
-      );
-      const response = await POST(request);
-      const data = await response.json();
-
-      expect(response.status).toBe(400);
-      expect(data.error).toBe(
-        "Password must contain at least one uppercase letter",
-      );
-    });
-
-    it("returns 400 when password has no lowercase letter", async () => {
-      const request = createRequest(
-        createValidSignupData({ password: "PASSWORD123!" }),
-      );
-      const response = await POST(request);
-      const data = await response.json();
-
-      expect(response.status).toBe(400);
-      expect(data.error).toBe(
-        "Password must contain at least one lowercase letter",
-      );
-    });
-
-    it("returns 400 when password has no number", async () => {
-      const request = createRequest(
-        createValidSignupData({ password: "Password!!" }),
-      );
-      const response = await POST(request);
-      const data = await response.json();
-
-      expect(response.status).toBe(400);
-      expect(data.error).toBe("Password must contain at least one number");
-    });
-
-    it("returns 400 when password has no special character", async () => {
-      const request = createRequest(
-        createValidSignupData({ password: "Password123" }),
-      );
-      const response = await POST(request);
-      const data = await response.json();
-
-      expect(response.status).toBe(400);
-      expect(data.error).toBe(
-        "Password must contain at least one special character",
-      );
-    });
+        expect(response.status).toBe(400);
+        expect(data.error).toBe(error);
+      },
+    );
   });
 
   describe("Email Uniqueness", () => {
