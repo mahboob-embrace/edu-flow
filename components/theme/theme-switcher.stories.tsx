@@ -88,9 +88,9 @@ export const SelectDarkMode: Story = {
       "theme-mode-dark",
     );
 
-    // Verify option is visible and contains Moon icon (at minimum)
+    // Check icon should be present (2 SVGs: Moon icon + Check icon)
     const icons = darkOptionAfter.querySelectorAll("svg");
-    await expect(icons.length).toBeGreaterThanOrEqual(1);
+    await expect(icons.length).toBeGreaterThan(1);
   },
 };
 
