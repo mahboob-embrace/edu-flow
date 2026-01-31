@@ -14,6 +14,7 @@ describe("rateLimit", () => {
   });
 
   afterEach(() => {
+    jest.runOnlyPendingTimers();
     jest.useRealTimers();
   });
 
