@@ -6,7 +6,7 @@ import { Input } from "./input";
 import { Switch } from "./switch";
 
 const meta = {
-  title: "UI/Label",
+  title: "Components/UI/Label",
   component: Label,
   parameters: {
     layout: "centered",
