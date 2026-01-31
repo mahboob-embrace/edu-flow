@@ -35,6 +35,16 @@ const ColorThemeSync = ({ theme }: { theme: ColorTheme }) => {
   return null;
 };
 
+// Helper to sync Storybook global locale with document attributes
+const LocaleSync = ({ locale }: { locale: Locale }) => {
+  useEffect(() => {
+    const dir = localeDirection[locale];
+    document.documentElement.dir = dir;
+    document.documentElement.lang = locale;
+  }, [locale]);
+  return null;
+};
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -114,14 +124,12 @@ const preview: Preview = {
     // Locale decorator - sets dir attribute for RTL support
     (Story, context) => {
       const locale = (context.globals.locale || "en") as Locale;
-      const dir = localeDirection[locale];
-
-      useEffect(() => {
-        document.documentElement.dir = dir;
-        document.documentElement.lang = locale;
-      }, [dir, locale]);
-
-      return <Story />;
+      return (
+        <>
+          <LocaleSync locale={locale} />
+          <Story />
+        </>
+      );
     },
   ],
 };
