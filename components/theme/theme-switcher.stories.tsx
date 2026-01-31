@@ -139,15 +139,17 @@ export const KeyboardAccessibility: Story = {
     // Close dropdown with Escape key
     await userEvent.keyboard("{Escape}");
 
-    // Wait for animation to complete and menu to be removed from DOM
-    // The Radix dropdown has a closing animation before removal
-    await new Promise((resolve) => setTimeout(resolve, 300));
-
-    // Verify menu is closed (check for data-state="closed" or absence)
-    const menuAfter = within(document.body).queryByRole("menu");
-    if (menuAfter) {
-      await expect(menuAfter.getAttribute("data-state")).toBe("closed");
-    }
+    // Wait for the menu to close. Radix DropdownMenuContent is either unmounted
+    // or has its `data-state` attribute set to "closed" after the animation.
+    await waitFor(() => {
+      const menuAfter = within(document.body).queryByRole("menu");
+      if (menuAfter) {
+        expect(menuAfter.getAttribute("data-state")).toBe("closed");
+      } else {
+        // If menu is null, it's not in the document, which is a valid closed state.
+        expect(menuAfter).toBeNull();
+      }
+    });
   },
 };
 
