@@ -1,9 +1,32 @@
-import React from "react";
-import type { Preview, ReactRenderer } from "@storybook/nextjs-vite";
-import { withThemeByClassName } from "@storybook/addon-themes";
+import React, { useEffect } from "react";
+import type { Preview } from "@storybook/nextjs-vite";
+import { useTheme } from "next-themes";
 import "../app/globals.css";
 
 import { ThemeProvider } from "../components/theme/theme-provider";
+import {
+  ColorThemeProvider,
+  useColorTheme,
+  colorThemes,
+} from "../components/theme/color-theme-provider";
+
+// Helper to sync Storybook global theme with next-themes
+const ThemeSync = ({ theme }: { theme: string }) => {
+  const { setTheme } = useTheme();
+  useEffect(() => {
+    setTheme(theme);
+  }, [theme, setTheme]);
+  return null;
+};
+
+// Helper to sync Storybook global color theme with ColorThemeProvider
+const ColorThemeSync = ({ theme }: { theme: any }) => {
+  const { setColorTheme } = useColorTheme();
+  useEffect(() => {
+    setColorTheme(theme);
+  }, [theme, setColorTheme]);
+  return null;
+};
 
 const preview: Preview = {
   parameters: {
@@ -21,6 +44,31 @@ const preview: Preview = {
     },
   },
   globalTypes: {
+    theme: {
+      name: "Theme",
+      description: "Global theme for components",
+      defaultValue: "light",
+      toolbar: {
+        icon: "circlehollow",
+        items: [
+          { value: "light", icon: "circlehollow", title: "light" },
+          { value: "dark", icon: "circle", title: "dark" },
+        ],
+      },
+    },
+    colorTheme: {
+      name: "Color Theme",
+      description: "Global color theme for components",
+      defaultValue: "default",
+      toolbar: {
+        icon: "paintbrush",
+        items: colorThemes.map((t) => ({
+          value: t.value,
+          title: t.name,
+          right: t.value === "default" ? "" : t.value,
+        })),
+      },
+    },
     locale: {
       name: "Locale",
       description: "Internationalization locale",
@@ -40,6 +88,7 @@ const preview: Preview = {
     // Theme decorator using next-themes
     (Story, context) => {
       const theme = context.globals.theme || "light";
+      const colorTheme = context.globals.colorTheme || "default";
       return (
         <ThemeProvider
           attribute="class"
@@ -47,7 +96,11 @@ const preview: Preview = {
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Story />
+          <ColorThemeProvider defaultTheme={colorTheme}>
+            <ThemeSync theme={theme} />
+            <ColorThemeSync theme={colorTheme} />
+            <Story />
+          </ColorThemeProvider>
         </ThemeProvider>
       );
     },
@@ -56,21 +109,13 @@ const preview: Preview = {
       const locale = context.globals.locale || "en";
       const dir = locale === "ar" ? "rtl" : "ltr";
 
-      React.useEffect(() => {
+      useEffect(() => {
         document.documentElement.dir = dir;
         document.documentElement.lang = locale;
       }, [dir, locale]);
 
       return <Story />;
     },
-    // Theme by class name decorator (for toolbar toggle)
-    withThemeByClassName<ReactRenderer>({
-      themes: {
-        light: "",
-        dark: "dark",
-      },
-      defaultTheme: "light",
-    }),
   ],
 };
 
