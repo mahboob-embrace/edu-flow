@@ -69,16 +69,8 @@ export const OpenMenu: Story = {
     const englishOption = await within(document.body).findByTestId(
       "locale-option-en",
     );
-    const danishOption = await within(document.body).findByTestId(
-      "locale-option-da",
-    );
-    const arabicOption = await within(document.body).findByTestId(
-      "locale-option-ar",
-    );
-
-    await expect(englishOption).toBeInTheDocument();
-    await expect(danishOption).toBeInTheDocument();
-    await expect(arabicOption).toBeInTheDocument();
+    await within(document.body).findByTestId("locale-option-da");
+    await within(document.body).findByTestId("locale-option-ar");
 
     // Verify current locale is highlighted
     await expect(englishOption).toHaveClass("bg-accent");
