@@ -66,11 +66,13 @@ export const OpenMenu: Story = {
     await userEvent.click(trigger);
 
     // Verify all locale options are visible
+    for (const locale of locales) {
+      await within(document.body).findByTestId(`locale-option-${locale}`);
+    }
+
     const englishOption = await within(document.body).findByTestId(
       "locale-option-en",
     );
-    await within(document.body).findByTestId("locale-option-da");
-    await within(document.body).findByTestId("locale-option-ar");
 
     // Verify current locale is highlighted
     await expect(englishOption).toHaveClass("bg-accent");
