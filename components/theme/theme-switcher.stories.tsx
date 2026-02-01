@@ -59,7 +59,7 @@ export const SelectLightMode: Story = {
 
     // Wait for menu to fully close
     await waitFor(() => {
-      expect(document.body.querySelector('[role="menu"]')).toBeNull();
+      expect(within(document.body).queryByRole("menu")).not.toBeInTheDocument();
     });
 
     // Re-open menu to verify selection
@@ -91,7 +91,7 @@ export const SelectDarkMode: Story = {
 
     // Wait for menu to fully close
     await waitFor(() => {
-      expect(document.body.querySelector('[role="menu"]')).toBeNull();
+      expect(within(document.body).queryByRole("menu")).not.toBeInTheDocument();
     });
 
     // Re-open menu to verify selection
@@ -123,9 +123,9 @@ export const SelectColorTheme: Story = {
     await userEvent.click(amberOption);
 
     // Verify the data-theme attribute is set
-    await expect(document.documentElement.getAttribute("data-theme")).toBe(
-      "amber",
-    );
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute("data-theme")).toBe("amber");
+    });
   },
 };
 
@@ -156,8 +156,7 @@ export const KeyboardAccessibility: Story = {
       if (menuAfter) {
         expect(menuAfter.getAttribute("data-state")).toBe("closed");
       } else {
-        // If menu is null, it's not in the document, which is a valid closed state.
-        expect(menuAfter).toBeNull();
+        expect(menuAfter).not.toBeInTheDocument();
       }
     });
   },
