@@ -1,5 +1,5 @@
 // Mock for i18n/actions server action - used by Storybook
-import { defaultLocale, type Locale } from "./config";
+import { defaultLocale, type Locale } from "@/i18n/config";
 
 export async function setLocale(_locale: Locale): Promise<void> {
   // No-op in Storybook - server actions don't work in browser context

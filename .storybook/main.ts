@@ -23,7 +23,12 @@ const config: StorybookConfig = {
         ...config.resolve.alias,
         "@": path.resolve(__dirname, "../"),
         // Mock server actions for Storybook
-        "@/i18n/actions": path.resolve(__dirname, "../i18n/actions.mock.ts"),
+        "@/i18n/actions": path.resolve(__dirname, "../mocks/i18n-actions.ts"),
+        // Mock next-auth/react for Storybook
+        "next-auth/react": path.resolve(
+          __dirname,
+          "../mocks/next-auth-react.ts",
+        ),
       };
     }
     return config;
