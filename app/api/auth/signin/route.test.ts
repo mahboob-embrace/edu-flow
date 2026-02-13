@@ -132,13 +132,20 @@ describe("POST /api/auth/signin", () => {
       { body: { password: "password123" }, case: "email is missing" },
       { body: { email: "test@example.com" }, case: "password is missing" },
       { body: {}, case: "both email and password are missing" },
-    ])("returns 400 when $case", async ({ body }) => {
+    ])("returns 400 when $case", async ({ body, case: testCase }) => {
       const request = createRequest(body);
       const response = await POST(request);
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.error).toBe("Email and password are required");
+
+      if (testCase === "email is missing") {
+        expect(data.error.toLowerCase()).toContain("email");
+      } else if (testCase === "password is missing") {
+        expect(data.error.toLowerCase()).toContain("password");
+      } else {
+        expect(data.error.toLowerCase()).toContain("email");
+      }
     });
   });
 

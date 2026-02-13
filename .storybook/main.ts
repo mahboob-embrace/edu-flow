@@ -9,6 +9,7 @@ const config: StorybookConfig = {
   stories: [
     "../components/**/*.mdx",
     "../components/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../app/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
   addons: [
     "@storybook/addon-docs",
@@ -29,6 +30,8 @@ const config: StorybookConfig = {
           __dirname,
           "../mocks/next-auth-react.ts",
         ),
+        // Mock navigation for Storybook
+        "@/lib/navigation": path.resolve(__dirname, "../mocks/navigation.ts"),
       };
     }
     return config;

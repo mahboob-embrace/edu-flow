@@ -46,7 +46,7 @@ export const Horizontal: Story = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const separators = canvas.getAllByTestId("separator");
+    const separators = canvas.getAllByRole("separator");
     await expect(separators).toHaveLength(3);
   },
 };

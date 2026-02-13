@@ -23,7 +23,7 @@ export const Default: Story = {};
 export const OpenMenu: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const trigger = canvas.getByTestId("theme-switcher-trigger");
+    const trigger = canvas.getByRole("button", { name: /toggle theme/i });
 
     // Open the dropdown
     await userEvent.click(trigger);
@@ -33,13 +33,13 @@ export const OpenMenu: Story = {
     await expect(menu).toBeInTheDocument();
 
     // Verify mode options are visible
-    await within(document.body).findByTestId("theme-mode-light");
-    await within(document.body).findByTestId("theme-mode-dark");
-    await within(document.body).findByTestId("theme-mode-system");
+    await within(document.body).findByRole("menuitem", { name: /light/i });
+    await within(document.body).findByRole("menuitem", { name: /dark/i });
+    await within(document.body).findByRole("menuitem", { name: /system/i });
 
     // Verify all color theme options are visible
     for (const ct of colorThemes) {
-      await within(document.body).findByTestId(`theme-color-${ct.value}`);
+      await within(document.body).findByRole("menuitem", { name: ct.name });
     }
   },
 };
@@ -48,13 +48,13 @@ export const OpenMenu: Story = {
 export const SelectLightMode: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const trigger = canvas.getByTestId("theme-switcher-trigger");
+    const trigger = canvas.getByRole("button", { name: /toggle theme/i });
 
     await userEvent.click(trigger);
 
-    const lightOption = await within(document.body).findByTestId(
-      "theme-mode-light",
-    );
+    const lightOption = await within(document.body).findByRole("menuitem", {
+      name: /light/i,
+    });
     await userEvent.click(lightOption);
 
     // Wait for menu to fully close
@@ -67,8 +67,9 @@ export const SelectLightMode: Story = {
 
     // Wait for the theme to update and the check icon to be visible
     await waitFor(async () => {
-      const lightOptionAfter = await within(document.body).findByTestId(
-        "theme-mode-light",
+      const lightOptionAfter = await within(document.body).findByRole(
+        "menuitem",
+        { name: /light/i },
       );
       const icons = lightOptionAfter.querySelectorAll("svg");
       expect(icons.length).toBeGreaterThan(1);
@@ -80,13 +81,13 @@ export const SelectLightMode: Story = {
 export const SelectDarkMode: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const trigger = canvas.getByTestId("theme-switcher-trigger");
+    const trigger = canvas.getByRole("button", { name: /toggle theme/i });
 
     await userEvent.click(trigger);
 
-    const darkOption = await within(document.body).findByTestId(
-      "theme-mode-dark",
-    );
+    const darkOption = await within(document.body).findByRole("menuitem", {
+      name: /dark/i,
+    });
     await userEvent.click(darkOption);
 
     // Wait for menu to fully close
@@ -99,8 +100,9 @@ export const SelectDarkMode: Story = {
 
     // Wait for the theme to update and the check icon to be visible
     await waitFor(async () => {
-      const darkOptionAfter = await within(document.body).findByTestId(
-        "theme-mode-dark",
+      const darkOptionAfter = await within(document.body).findByRole(
+        "menuitem",
+        { name: /dark/i },
       );
       const icons = darkOptionAfter.querySelectorAll("svg");
       expect(icons.length).toBeGreaterThan(1);
@@ -112,14 +114,14 @@ export const SelectDarkMode: Story = {
 export const SelectColorTheme: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const trigger = canvas.getByTestId("theme-switcher-trigger");
+    const trigger = canvas.getByRole("button", { name: /toggle theme/i });
 
     await userEvent.click(trigger);
 
     // Select amber color theme
-    const amberOption = await within(document.body).findByTestId(
-      "theme-color-amber",
-    );
+    const amberOption = await within(document.body).findByRole("menuitem", {
+      name: /amber/i,
+    });
     await userEvent.click(amberOption);
 
     // Verify the data-theme attribute is set
@@ -133,7 +135,7 @@ export const SelectColorTheme: Story = {
 export const KeyboardAccessibility: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const trigger = canvas.getByTestId("theme-switcher-trigger");
+    const trigger = canvas.getByRole("button", { name: /toggle theme/i });
 
     // Focus the trigger
     trigger.focus();
@@ -166,15 +168,15 @@ export const KeyboardAccessibility: Story = {
 export const ColorThemeOptions: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const trigger = canvas.getByTestId("theme-switcher-trigger");
+    const trigger = canvas.getByRole("button", { name: /toggle theme/i });
 
     await userEvent.click(trigger);
 
     // Verify all color themes have color preview circles
     for (const ct of colorThemes) {
-      const option = await within(document.body).findByTestId(
-        `theme-color-${ct.value}`,
-      );
+      const option = await within(document.body).findByRole("menuitem", {
+        name: ct.name,
+      });
       const colorCircle = option.querySelector('span[class*="rounded-full"]');
       await expect(colorCircle).not.toBeNull();
     }

@@ -3,6 +3,11 @@ import { compare } from "bcryptjs";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import * as v from "valibot";
+import { SigninSchema } from "@/lib/validations/auth";
+
+// Re-export for backwards compatibility
+export { SigninSchema } from "@/lib/validations/auth";
 
 // Maximum failed login attempts before account lockout
 const MAX_FAILED_ATTEMPTS = 5;
@@ -41,17 +46,16 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { email, password } = body;
+    const { success, output, issues } = v.safeParse(SigninSchema, body);
 
-    if (!email || !password) {
-      return NextResponse.json(
-        { error: "Email and password are required" },
-        { status: 400 },
-      );
+    if (!success) {
+      return NextResponse.json({ error: issues[0].message }, { status: 400 });
     }
 
+    const { email, password } = output;
+
     // Case-insensitive email lookup
-    const normalizedEmail = email.toLowerCase().trim();
+    const normalizedEmail = email.toLowerCase();
 
     const user = await prisma.user.findFirst({
       where: {

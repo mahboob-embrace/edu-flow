@@ -1,5 +1,11 @@
 packages:
   - .
-ignoredBuiltDependencies:
-  - sharp
-  - unrs-resolver
+
+# Packages whose build scripts are explicitly allowed to run.
+# All other packages with build scripts will be skipped.
+# Note: When onlyBuiltDependencies is set, ignoredBuiltDependencies is ignored by pnpm.
+onlyBuiltDependencies:
+  - bcryptjs # Password hashing library
+  - msw # Mock Service Worker - installs service worker
+  - playwright # Browser automation - downloads browser binaries
+  - prisma # Database toolkit - generates client

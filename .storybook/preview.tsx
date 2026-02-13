@@ -1,7 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import type { Preview } from "@storybook/nextjs-vite";
 import { useTheme } from "next-themes";
+import { initialize, mswLoader } from "msw-storybook-addon";
 import "../app/globals.css";
+
+import { handlers } from "../mocks/handlers";
 
 import { ThemeProvider } from "../components/theme/theme-provider";
 import {
@@ -16,19 +19,33 @@ import {
   localeDirection,
   type Locale,
 } from "../i18n/config";
+import { NextIntlClientProvider } from "next-intl";
+
+// Use Vite's `import.meta.glob` to dynamically and eagerly import all message files.
+import type enMessages from "../messages/en.json";
+
+const messageImports = import.meta.glob<true, string, typeof enMessages>(
+  "../messages/*.json",
+  { eager: true, import: "default" },
+);
+
+const messages = locales.reduce(
+  (acc, locale) => {
+    const path = `../messages/${locale}.json`;
+    if (messageImports[path]) {
+      acc[locale] = messageImports[path];
+    }
+    return acc;
+  },
+  {} as Record<Locale, typeof enMessages>,
+);
 
 // Helper to sync Storybook global theme with next-themes
 const ThemeSync = ({ theme }: { theme: string }) => {
   const { setTheme } = useTheme();
-  const prevTheme = useRef(theme);
-  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if (isFirstRender.current || prevTheme.current !== theme) {
-      setTheme(theme);
-      prevTheme.current = theme;
-      isFirstRender.current = false;
-    }
+    setTheme(theme);
   }, [theme, setTheme]);
 
   return null;
@@ -37,15 +54,9 @@ const ThemeSync = ({ theme }: { theme: string }) => {
 // Helper to sync Storybook global color theme with ColorThemeProvider
 const ColorThemeSync = ({ theme }: { theme: ColorTheme }) => {
   const { setColorTheme } = useColorTheme();
-  const prevTheme = useRef(theme);
-  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if (isFirstRender.current || prevTheme.current !== theme) {
-      setColorTheme(theme);
-      prevTheme.current = theme;
-      isFirstRender.current = false;
-    }
+    setColorTheme(theme);
   }, [theme, setColorTheme]);
 
   return null;
@@ -61,6 +72,9 @@ const LocaleSync = ({ locale }: { locale: Locale }) => {
   return null;
 };
 
+// Initialize MSW
+initialize();
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -74,6 +88,9 @@ const preview: Preview = {
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
       test: "todo",
+    },
+    msw: {
+      handlers: handlers,
     },
   },
   globalTypes: {
@@ -125,22 +142,25 @@ const preview: Preview = {
       const locale = (context.globals.locale || "en") as Locale;
 
       return (
-        <ThemeProvider
-          attribute="class"
-          defaultTheme={theme}
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <ColorThemeProvider defaultTheme={colorTheme}>
-            <ThemeSync theme={theme} />
-            <ColorThemeSync theme={colorTheme} />
-            <LocaleSync locale={locale} />
-            <Story />
-          </ColorThemeProvider>
-        </ThemeProvider>
+        <NextIntlClientProvider locale={locale} messages={messages[locale]}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme={theme}
+            enableSystem={false}
+            disableTransitionOnChange
+          >
+            <ColorThemeProvider defaultTheme={colorTheme}>
+              <ThemeSync theme={theme} />
+              <ColorThemeSync theme={colorTheme} />
+              <LocaleSync locale={locale} />
+              <Story />
+            </ColorThemeProvider>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       );
     },
   ],
+  loaders: [mswLoader],
 };
 
 export default preview;

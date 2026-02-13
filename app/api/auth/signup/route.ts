@@ -3,25 +3,10 @@ import { hash } from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import * as v from "valibot";
+import { SignupSchema } from "@/lib/validations/auth";
 
-// Password complexity validation
-const PasswordSchema = v.pipe(
-  v.string(),
-  v.minLength(8, "Password must be at least 8 characters"),
-  v.regex(/[A-Z]/, "Password must contain at least one uppercase letter"),
-  v.regex(/[a-z]/, "Password must contain at least one lowercase letter"),
-  v.regex(/[0-9]/, "Password must contain at least one number"),
-  v.regex(
-    /[^A-Za-z0-9]/,
-    "Password must contain at least one special character",
-  ),
-);
-
-const SignupSchema = v.object({
-  name: v.pipe(v.string(), v.minLength(1, "Name is required")),
-  email: v.pipe(v.string(), v.email("Invalid email address")),
-  password: PasswordSchema,
-});
+// Re-export for backwards compatibility
+export { PasswordSchema, SignupSchema } from "@/lib/validations/auth";
 
 export async function POST(request: Request) {
   try {
@@ -58,10 +43,7 @@ export async function POST(request: Request) {
     const { success, output, issues } = v.safeParse(SignupSchema, body);
 
     if (!success) {
-      return NextResponse.json(
-        { error: issues[0].message },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: issues[0].message }, { status: 400 });
     }
 
     const { name, email, password } = output;

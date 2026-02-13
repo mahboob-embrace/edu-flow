@@ -60,15 +60,20 @@ export const OpenMenu: Story = {
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const trigger = canvas.getByTestId("locale-switcher-trigger");
+    const trigger = canvas.getByRole("button", { name: /switch language/i });
     // Open the dropdown
     await userEvent.click(trigger);
     // Verify all locale options are visible
     for (const locale of locales) {
-      await within(document.body).findByTestId(`locale-option-${locale}`);
+      await within(document.body).findByRole("menuitem", {
+        name: localeNames[locale],
+      });
     }
-    const currentLocaleOption = await within(document.body).findByTestId(
-      `locale-option-${args.currentLocale}`,
+    const currentLocaleOption = await within(document.body).findByRole(
+      "menuitem",
+      {
+        name: localeNames[args.currentLocale],
+      },
     );
     // Verify current locale is highlighted
     await expect(currentLocaleOption).toHaveClass("bg-accent");

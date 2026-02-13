@@ -29,8 +29,8 @@ export const Disabled: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const googleButton = canvas.getByTestId("google-social");
-    const facebookButton = canvas.getByTestId("facebook-social");
+    const googleButton = canvas.getByRole("button", { name: /google/i });
+    const facebookButton = canvas.getByRole("button", { name: /facebook/i });
 
     expect(googleButton).toBeDisabled();
     expect(facebookButton).toBeDisabled();
@@ -43,8 +43,10 @@ export const CustomTestIdPrefix: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(canvas.getByTestId("google-login")).toBeInTheDocument();
-    expect(canvas.getByTestId("facebook-login")).toBeInTheDocument();
+    expect(canvas.getByRole("button", { name: /google/i })).toBeInTheDocument();
+    expect(
+      canvas.getByRole("button", { name: /facebook/i }),
+    ).toBeInTheDocument();
   },
 };
 
@@ -54,8 +56,8 @@ export const Interaction: Story = {
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const googleButton = canvas.getByTestId("google-social");
-    const facebookButton = canvas.getByTestId("facebook-social");
+    const googleButton = canvas.getByRole("button", { name: /google/i });
+    const facebookButton = canvas.getByRole("button", { name: /facebook/i });
 
     // Click Google button
     await userEvent.click(googleButton);
