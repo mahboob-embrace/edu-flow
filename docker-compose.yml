@@ -1,12 +1,12 @@
 services:
   postgres:
     image: postgres:17
-    container_name: workspace-postgres
+    container_name: edu-flow-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: workspace
+      POSTGRES_DB: edu-flow
     ports:
       - "5432:5432"
     volumes:
@@ -19,7 +19,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: workspace-pgadmin
+    container_name: edu-flow-pgadmin
     restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
